@@ -1,4 +1,4 @@
 module.exports = {
-	App: require('./App.js'),
-	Playlists: require('./Playlists.js')
+	AppController: require('./AppController.js'),
+	PlaylistsController: require('./AppController.js')
 };
