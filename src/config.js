@@ -39,8 +39,17 @@ module.exports = function($stateProvider, $urlRouterProvider) {
 		.state('app.home.feed', {
 			url: "/feed",
 			views: {
-				'feed': {
+				feed: {
 					templateUrl: "templates/home/feed.html"
+				}
+			}
+		})
+
+		.state('app.home.feedItem', {
+			url: "/feed/:feedId",
+			views: {
+				feed: {
+					templateUrl: "templates/home/post.html"
 				}
 			}
 		})

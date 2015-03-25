@@ -1,15 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
-var controllers = require("controllers");
-var config = require("./config.js");
-var run = require("./run.js");
-
-angular.module("App", ["ionic"]).run(run).config(config);
-
-},{"./config.js":2,"./run.js":6,"controllers":5}],2:[function(require,module,exports){
-"use strict";
-
 var _require = require("controllers");
 
 var App = _require.App;
@@ -46,6 +37,13 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		views: {
 			feed: {
 				templateUrl: "templates/home/feed.html"
+			}
+		}
+	}).state("app.home.feedItem", {
+		url: "/feed/:feedId",
+		views: {
+			feed: {
+				templateUrl: "templates/home/post.html"
 			}
 		}
 	}).state("app.home.groups", {
@@ -91,7 +89,7 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise("/");
 };
 
-},{"controllers":5}],3:[function(require,module,exports){
+},{"controllers":4}],2:[function(require,module,exports){
 "use strict";
 
 module.exports = function AppController($scope, $ionicModal, $timeout) {
@@ -127,14 +125,14 @@ module.exports = function AppController($scope, $ionicModal, $timeout) {
 	};
 };
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 "use strict";
 
 module.exports = function PlaylistsController($scope) {
 	$scope.playlists = [{ title: "Reggae", id: 1 }, { title: "Chill", id: 2 }, { title: "Dubstep", id: 3 }, { title: "Indie", id: 4 }, { title: "Rap", id: 5 }, { title: "Cowbell", id: 6 }];
 };
 
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -142,7 +140,7 @@ module.exports = {
 	Playlists: require("./Playlists.js")
 };
 
-},{"./App.js":3,"./Playlists.js":4}],6:[function(require,module,exports){
+},{"./App.js":2,"./Playlists.js":3}],5:[function(require,module,exports){
 "use strict";
 
 module.exports = function ($ionicPlatform) {
@@ -159,4 +157,13 @@ module.exports = function ($ionicPlatform) {
 	});
 };
 
-},{}]},{},[1]);
+},{}],6:[function(require,module,exports){
+"use strict";
+
+var controllers = require("controllers");
+var config = require("./config.js");
+var run = require("./run.js");
+
+angular.module("App", ["ionic"]).run(run).config(config);
+
+},{"./config.js":1,"./run.js":5,"controllers":4}]},{},[6]);

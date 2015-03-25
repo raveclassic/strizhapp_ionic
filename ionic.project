@@ -1,6 +1,6 @@
 {
   "name": "test",
-  "app_id": "",
+  "app_id": "3e60108c",
   "gulpStartupTasks": [
     "sass",
     "js",
