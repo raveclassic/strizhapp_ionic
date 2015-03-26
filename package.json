@@ -37,7 +37,7 @@
     "watchify": "^2.6.0"
   },
 	"scripts": {
-		"install": "gulp install",
-		"start": "ionic serve"
+		"postinstall": "gulp install",
+		"serve": "ionic serve"
 	}
 }
