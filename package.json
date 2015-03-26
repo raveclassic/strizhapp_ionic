@@ -23,7 +23,9 @@
     "uglify": "^0.1.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^2.6.0"
+    "watchify": "^2.6.0",
+    "faker": "^2.1.2",
+    "moment": "^2.9.0"
   },
   "browser": {},
   "browserify": {
@@ -42,8 +44,5 @@
   "scripts": {
     "postinstall": "gulp install",
     "serve": "ionic serve"
-  },
-  "devDependencies": {
-    "faker": "^2.1.2"
   }
 }

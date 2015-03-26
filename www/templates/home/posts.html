@@ -5,6 +5,7 @@
                       ui-sref="app.home.post({postId: post.id})"
                       class="item-thumbnail-left item-text-wrap">
 	            <img ng-src="{{post.image}}" alt=""/>
+	            <small>{{post.created_at | calendar}}</small>
 	            <h2>{{post.title}}</h2>
 	            <p>{{post.description}}</p>
             </ion-item>
