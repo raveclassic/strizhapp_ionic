@@ -1,6 +1,11 @@
-let {AppController, PlaylistsController} = require('controllers');
+let {
+	AppController,
+	PlaylistsController,
+	PostsController,
+	PostController
+	} = require('controllers');
 
-module.exports = function($stateProvider, $urlRouterProvider) {
+module.exports = function ($stateProvider, $urlRouterProvider) {
 	$stateProvider
 
 		.state('app', {
@@ -10,7 +15,7 @@ module.exports = function($stateProvider, $urlRouterProvider) {
 		})
 
 		.state('app.home', {
-			abstract: true,
+			//abstract: true,
 			views: {
 				'menuContent': {
 					templateUrl: "templates/home.html"
@@ -22,16 +27,18 @@ module.exports = function($stateProvider, $urlRouterProvider) {
 			url: "/",
 			views: {
 				posts: {
-					templateUrl: "templates/home/posts.html"
+					templateUrl: "templates/home/posts.html",
+					controller: PostsController
 				}
 			}
 		})
 
 		.state('app.home.post', {
-			url: "/posts/:postId",
+			url: "/posts/{postId:int}",
 			views: {
 				posts: {
-					templateUrl: "templates/home/post.html"
+					templateUrl: "templates/home/post.html",
+					controller: PostController
 				}
 			}
 		})
@@ -95,8 +102,7 @@ module.exports = function($stateProvider, $urlRouterProvider) {
 			url: "/playlists/:playlistId",
 			views: {
 				'menuContent': {
-					templateUrl: "templates/playlist.html",
-					controller: PlaylistsController
+					templateUrl: "templates/playlist.html"
 				}
 			}
 		});

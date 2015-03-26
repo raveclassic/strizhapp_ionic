@@ -2,9 +2,9 @@
   "name": "test",
   "version": "1.0.0",
   "description": "test: An Ionic project",
-	"engines": {
-		"node": "~0.10.37"
-	},
+  "engines": {
+    "node": "~0.10.37"
+  },
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-concat": "^2.2.0",
@@ -12,33 +12,38 @@
     "gulp-rename": "^1.2.0",
     "gulp-sass": "^1.3.3",
     "ionic": "^1.3.18",
-		"babelify": "^5.0.4",
-		"bower": "^1.3.3",
-		"browserify": "^9.0.3",
-		"browserify-shim": "^3.8.3",
-		"cordova": "^4.3.0",
-		"gulp-uglify": "^1.1.0",
-		"gulp-util": "^2.2.14",
-		"shelljs": "^0.3.0",
-		"uglify": "^0.1.1",
-		"vinyl-buffer": "^1.0.0",
-		"vinyl-source-stream": "^1.1.0",
-		"watchify": "^2.6.0"
+    "babelify": "^5.0.4",
+    "bower": "^1.3.3",
+    "browserify": "^9.0.3",
+    "browserify-shim": "^3.8.3",
+    "cordova": "^4.3.0",
+    "gulp-uglify": "^1.1.0",
+    "gulp-util": "^2.2.14",
+    "shelljs": "^0.3.0",
+    "uglify": "^0.1.1",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^2.6.0"
   },
+  "browser": {},
   "browserify": {
     "transform": [
       "browserify-shim",
       [
         "babelify",
         {
+          "experimental": true,
           "ignore": "www/lib"
         }
       ]
     ]
   },
   "browserify-shim": {},
-	"scripts": {
-		"postinstall": "gulp install",
-		"serve": "ionic serve"
-	}
+  "scripts": {
+    "postinstall": "gulp install",
+    "serve": "ionic serve"
+  },
+  "devDependencies": {
+    "faker": "^2.1.2"
+  }
 }
