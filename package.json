@@ -2,6 +2,9 @@
   "name": "test",
   "version": "1.0.0",
   "description": "test: An Ionic project",
+	"engines": {
+		"node": "~0.10.37"
+	},
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-concat": "^2.2.0",
