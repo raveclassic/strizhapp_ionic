@@ -2,7 +2,8 @@ let {
 	AppController,
 	PlaylistsController,
 	PostsController,
-	PostController
+	PostController,
+	NewPostController
 	} = require('controllers');
 
 module.exports = function ($stateProvider, $urlRouterProvider) {
@@ -15,7 +16,7 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		})
 
 		.state('app.home', {
-			//abstract: true,
+			abstract: true,
 			views: {
 				'menuContent': {
 					templateUrl: "templates/home.html"
@@ -29,6 +30,16 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 				posts: {
 					templateUrl: "templates/home/posts.html",
 					controller: PostsController
+				}
+			}
+		})
+
+		.state('app.home.newPost', {
+			url: "/posts/new",
+			views: {
+				posts: {
+					templateUrl: "templates/home/new-post.html",
+					controller: NewPostController
 				}
 			}
 		})

@@ -2,7 +2,8 @@ module.exports = {
 	AppController: require('./AppController.js'),
 	PlaylistsController: require('./PlaylistsController.js'),
 	PostsController: require('./PostsController.js'),
-	PostController: require('./PostController.js')
+	PostController: require('./PostController.js'),
+	NewPostController: require('./NewPostController.js')
 };
 
 //Object.keys(module.exports).reduce((m, key) => {
