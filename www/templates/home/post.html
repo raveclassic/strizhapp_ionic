@@ -1,11 +1,11 @@
-<ion-view view-title="">
+<ion-view view-title="" class="view-postView">
 	<ion-nav-buttons side="secondary">
 		<a class="button button-clear button-positive" ui-sref="app.home.editPost({postId: post.id})">Редактировать</a>
 	</ion-nav-buttons>
 	<ion-content>
 		<div class="list card">
 
-			<div class="item ">
+			<div class="item">
 				<!--<img src="" alt="" ng-src="{{post.user.image}}}">-->
 				<h2>{{post.title}}</h2>
 
@@ -38,6 +38,18 @@
 				<!--</a>-->
 			<!--</div>-->
 
+		</div>
+
+		<div class="list card comment" ng-repeat="comment in post.comments">
+			<div class="item item-avatar">
+				<img src="" alt="" ng-src="{{comment.user.image}}}">
+				<h2>{{comment.user.username}}</h2>
+
+				<p>{{comment.created_at | calendar}}</p>
+			</div>
+			<div class="item item-body">
+				<p>{{comment.message}}</p>
+			</div>
 		</div>
 	</ion-content>
 </ion-view>

@@ -17,8 +17,19 @@ for (let i = 0; i < 90; i++) {
 		image: `${faker.image.transport(100, 100)}?${i}`,
 		full_image: `${faker.image.transport()}?${i}`,
 		price: faker.finance.amount(),
+		comments: [],
 		user: me
 	};
+	for (let j = 0; j < Math.round(Math.random()*10); j++) {
+		let comment = {
+			id: j,
+			created_at: faker.date.recent(10).getTime(),
+			message: faker.lorem.paragraph(),
+			user: faker.helpers.createCard()
+		};
+		comment.user.image = `${faker.image.avatar(100, 100)}?${Math.random()}`;
+		data.posts[i].comments.push(comment);
+	}
 	data.feed[i] = {
 		id: i,
 		created_at: faker.date.recent(30).getTime(),
@@ -29,6 +40,7 @@ for (let i = 0; i < 90; i++) {
 		price: faker.finance.amount(),
 		description: faker.lorem.paragraph()
 	};
+	data.feed[i].user.image = `${faker.image.avatar(100, 100)}?${Math.random()}`;
 	let contact = faker.helpers.createCard();
 	contact.image = `${faker.image.avatar(100, 100)}?${Math.random()}`;
 	contact.id = i;
