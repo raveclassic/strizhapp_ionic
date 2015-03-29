@@ -3,7 +3,8 @@ let {
 	PlaylistsController,
 	PostsController,
 	PostController,
-	NewPostController
+	NewPostController,
+	NewGroupController
 	} = require('controllers');
 
 module.exports = function ($stateProvider, $urlRouterProvider) {
@@ -77,6 +78,16 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 			views: {
 				'groups': {
 					templateUrl: "templates/home/groups.html"
+				}
+			}
+		})
+
+		.state('app.home.newGroup', {
+			url: "/groups/new",
+			views: {
+				groups: {
+					templateUrl: "templates/home/new-group.html",
+					controller: NewGroupController
 				}
 			}
 		})

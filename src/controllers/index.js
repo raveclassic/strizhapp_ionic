@@ -3,7 +3,8 @@ module.exports = {
 	PlaylistsController: require('./PlaylistsController.js'),
 	PostsController: require('./PostsController.js'),
 	PostController: require('./PostController.js'),
-	NewPostController: require('./NewPostController.js')
+	NewPostController: require('./NewPostController.js'),
+	NewGroupController: require('./NewGroupController.js')
 };
 
 //Object.keys(module.exports).reduce((m, key) => {
