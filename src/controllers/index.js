@@ -7,7 +7,9 @@ module.exports = {
 	EditPostController: require('./EditPostController.js'),
 	NewGroupController: require('./NewGroupController.js'),
 	FeedController: require('./FeedController.js'),
-	FeedItemController: require('./FeedItemController.js')
+	FeedItemController: require('./FeedItemController.js'),
+	GroupsController: require('./GroupsController.js'),
+	GroupController: require('./GroupController.js')
 };
 
 //Object.keys(module.exports).reduce((m, key) => {

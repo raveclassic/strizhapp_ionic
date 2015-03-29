@@ -4,38 +4,10 @@
 	</ion-nav-buttons>
     <ion-content>
         <ion-list>
-            <ion-item>1</ion-item>
-            <ion-item>2</ion-item>
-            <ion-item>3</ion-item>
-            <ion-item>4</ion-item>
-            <ion-item>1</ion-item>
-            <ion-item>2</ion-item>
-            <ion-item>3</ion-item>
-            <ion-item>4</ion-item>
-            <ion-item>1</ion-item>
-            <ion-item>2</ion-item>
-            <ion-item>3</ion-item>
-            <ion-item>4</ion-item>
-            <ion-item>1</ion-item>
-            <ion-item>2</ion-item>
-            <ion-item>3</ion-item>
-            <ion-item>4</ion-item>
-            <ion-item>1</ion-item>
-            <ion-item>2</ion-item>
-            <ion-item>3</ion-item>
-            <ion-item>4</ion-item>
-            <ion-item>1</ion-item>
-            <ion-item>2</ion-item>
-            <ion-item>3</ion-item>
-            <ion-item>4</ion-item>
-            <ion-item>1</ion-item>
-            <ion-item>2</ion-item>
-            <ion-item>3</ion-item>
-            <ion-item>4</ion-item>
-            <ion-item>1</ion-item>
-            <ion-item>2</ion-item>
-            <ion-item>3</ion-item>
-            <ion-item>4</ion-item>
+	        <a class="item" ng-repeat="group in groups" ui-sref="app.home.group({groupId: group.id})">
+		        {{group.title}}
+		        <span class="badge badge-positive">{{group.contacts.length}}</span>
+	        </a>
         </ion-list>
     </ion-content>
 </ion-view>

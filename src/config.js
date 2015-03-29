@@ -7,7 +7,9 @@ let {
 	EditPostController,
 	NewGroupController,
 	FeedController,
-	FeedItemController
+	FeedItemController,
+	GroupsController,
+	GroupController
 	} = require('controllers');
 
 let {DataService} = require('services');
@@ -117,9 +119,15 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 
 		.state('app.home.groups', {
 			url: "/groups",
+			resolve: {
+				groups() {
+					return DataService.groups;
+				}
+			},
 			views: {
-				'groups': {
-					templateUrl: "templates/home/groups.html"
+				groups: {
+					templateUrl: "templates/home/groups.html",
+					controller: GroupsController
 				}
 			}
 		})
@@ -130,6 +138,21 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 				groups: {
 					templateUrl: "templates/home/new-group.html",
 					controller: NewGroupController
+				}
+			}
+		})
+
+		.state('app.home.group', {
+			url: '/groups/:groupId',
+			resolve: {
+				group($stateParams) {
+					return DataService.groups[$stateParams['groupId']];
+				}
+			},
+			views: {
+				groups: {
+					templateUrl: "templates/home/group.html",
+					controller: GroupController
 				}
 			}
 		})

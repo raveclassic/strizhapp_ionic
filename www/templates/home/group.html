@@ -1,0 +1,16 @@
+<ion-view view-title="{{group.title}}">
+	<ion-content>
+		<ion-list>
+			<a class="item item-avatar" ng-repeat="contact in group.contacts"
+					href="tel:+7{{contact.phone}}">
+				<img src="" alt="" ng-src="{{contact.image}}"/>
+
+				<h2>{{contact.username}}</h2>
+
+				<p>
+					+7{{contact.phone}}
+				</p>
+			</a>
+		</ion-list>
+	</ion-content>
+</ion-view>
