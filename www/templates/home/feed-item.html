@@ -1,5 +1,38 @@
-<ion-view>
+<ion-view view-title="{{feedItem.title}}">
   <ion-content>
-    <h1>FEED</h1>
+	  <div class="list card">
+		  <div class="item item-avatar"
+		       ui-sref="app.home.feedItem({feedItemId: feedItem.id})" style="cursor: pointer">
+			  <img ng-src="{{feedItem.image}}" src="" alt=""/>
+			  <div>
+				  <small>{{feedItem.user.username}}</small>
+				  <small class="item-note">{{feedItem.created_at | calendar}}</small>
+			  </div>
+			  <h2>{{feedItem.title}}</h2>
+		  </div>
+
+		  <div class="item item-body"
+		       ui-sref="app.home.feedItem({feedItemId: feedItem.id})" style="cursor: pointer">
+			  <img class="full-image" src="" alt="" ng-src="{{feedItem.full_image}}">
+
+			  <p>{{feedItem.description}}</p>
+		  </div>
+
+		  <div class="item tabs tabs-secondary tabs-icon-left">
+			  <a class="tab-item" href="#">
+				  <i class="icon ion-thumbsup"></i>
+				  Нравится
+			  </a>
+			  <a class="tab-item" href="#">
+				  <i class="icon ion-chatbox"></i>
+				  Комментировать
+			  </a>
+			  <a class="tab-item" href="#">
+				  <i class="icon ion-share"></i>
+				  Поделиться
+			  </a>
+		  </div>
+
+	  </div>
   </ion-content>
 </ion-view>

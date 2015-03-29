@@ -3,15 +3,21 @@ let faker = window.faker = require('faker');
 let me = faker.helpers.createCard();
 me.image = `${faker.image.avatar(100, 100)}?${Math.random()}`;
 
+let dates = [];
+for (let i = 0; i < 10; i++) {
+	dates.push(faker.date.recent(30).getTime());
+}
+dates.sort((a, b) => b - a);
+
 let data = {
 	posts: [],
 	feed: [],
 	contacts: []
 };
-for (let i = 0; i < 90; i++) {
+for (let i = 0; i < 10; i++) {
 	data.posts[i] = {
 		id: i,
-		created_at: faker.date.recent(30).getTime(),
+		created_at: dates[i],
 		title: faker.lorem.sentence(),
 		description: faker.lorem.paragraph(),
 		image: `${faker.image.transport(100, 100)}?${i}`,
@@ -20,10 +26,10 @@ for (let i = 0; i < 90; i++) {
 		comments: [],
 		user: me
 	};
-	for (let j = 0; j < Math.round(Math.random()*10); j++) {
+	for (let j = 0; j < Math.round(Math.random() * 10); j++) {
 		let comment = {
 			id: j,
-			created_at: faker.date.recent(10).getTime(),
+			created_at: dates[j],
 			message: faker.lorem.paragraph(),
 			user: faker.helpers.createCard()
 		};
@@ -32,7 +38,7 @@ for (let i = 0; i < 90; i++) {
 	}
 	data.feed[i] = {
 		id: i,
-		created_at: faker.date.recent(30).getTime(),
+		created_at: dates[i],
 		title: faker.lorem.sentence(),
 		image: `${faker.image.avatar(100, 100)}?${i}`,
 		full_image: `${faker.image.transport()}?${i}`,
@@ -50,5 +56,6 @@ for (let i = 0; i < 90; i++) {
 }
 
 data.posts.sort((a, b) => b.created_at - a.created_at);
+data.feed.sort((a, b) => b.created_at - a.created_at);
 
 module.exports = data;

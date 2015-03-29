@@ -1,7 +1,3 @@
-module.export = function FeedController($scope) {
-	$scope.feed = [
-		{
-			id: 1,
-		}
-	];
+module.exports = function FeedController($scope, feed) {
+	$scope.feed = feed;
 };

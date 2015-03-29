@@ -5,11 +5,13 @@
 	<ion-content>
 		<div class="list card">
 
-			<div class="item">
-				<!--<img src="" alt="" ng-src="{{post.user.image}}}">-->
+			<div class="item item-avatar">
+				<img src="" alt="" ng-src="{{post.user.image}}}">
+				<div>
+					<small>{{post.user.username}}</small>
+					<small class="item-note">{{post.created_at | calendar}}</small>
+				</div>
 				<h2>{{post.title}}</h2>
-
-				<p>{{created_at | calendar}}</p>
 			</div>
 
 			<div class="item item-body">
@@ -39,6 +41,8 @@
 			<!--</div>-->
 
 		</div>
+
+		<small style="text-align: center; display: block">Комментарии</small>
 
 		<div class="list card comment" ng-repeat="comment in post.comments">
 			<div class="item item-avatar">

@@ -5,7 +5,9 @@ let {
 	PostController,
 	NewPostController,
 	EditPostController,
-	NewGroupController
+	NewGroupController,
+	FeedController,
+	FeedItemController
 	} = require('controllers');
 
 let {DataService} = require('services');
@@ -85,18 +87,30 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 
 		.state('app.home.feed', {
 			url: "/feed",
+			resolve: {
+				feed() {
+					return DataService.feed;
+				}
+			},
 			views: {
 				feed: {
-					templateUrl: "templates/home/feed.html"
+					templateUrl: "templates/home/feed.html",
+					controller: FeedController
 				}
 			}
 		})
 
 		.state('app.home.feedItem', {
-			url: "/feed/:feedId",
+			url: "/feed/:feedItemId",
+			resolve: {
+				feedItem($stateParams) {
+					return DataService.feed[$stateParams['feedItemId']]
+				}
+			},
 			views: {
 				feed: {
-					templateUrl: "templates/home/post.html"
+					templateUrl: "templates/home/feed-item.html",
+					controller: FeedItemController
 				}
 			}
 		})
