@@ -44,7 +44,7 @@
   },
   "browserify-shim": {},
   "scripts": {
-    "postinstall": "gulp install",
+    "postinstall": "gulp install && gulp sass && gulp js",
     "serve": "ionic serve"
   }
 }
