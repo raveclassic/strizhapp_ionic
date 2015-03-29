@@ -1,5 +1,43 @@
-<ion-view>
-  <ion-content>
-    <div class="card"></div>
-  </ion-content>
+<ion-view view-title="">
+	<ion-nav-buttons side="secondary">
+		<a class="button button-clear button-positive" ui-sref="app.home.editPost({postId: post.id})">Редактировать</a>
+	</ion-nav-buttons>
+	<ion-content>
+		<div class="list card">
+
+			<div class="item ">
+				<!--<img src="" alt="" ng-src="{{post.user.image}}}">-->
+				<h2>{{post.title}}</h2>
+
+				<p>{{created_at | calendar}}</p>
+			</div>
+
+			<div class="item item-body">
+				<img class="full-image" src="" alt="" ng-src="{{post.full_image}}">
+
+				<p>{{post.description}}</p>
+
+				<!--<p>-->
+					<!--<a href="#" class="subdued">1 Like</a>-->
+					<!--<a href="#" class="subdued">5 Comments</a>-->
+				<!--</p>-->
+			</div>
+
+			<!--<div class="item tabs tabs-secondary tabs-icon-left">-->
+				<!--<a class="tab-item" href="#">-->
+					<!--<i class="icon ion-thumbsup"></i>-->
+					<!--Like-->
+				<!--</a>-->
+				<!--<a class="tab-item" href="#">-->
+					<!--<i class="icon ion-chatbox"></i>-->
+					<!--Comment-->
+				<!--</a>-->
+				<!--<a class="tab-item" href="#">-->
+					<!--<i class="icon ion-share"></i>-->
+					<!--Share-->
+				<!--</a>-->
+			<!--</div>-->
+
+		</div>
+	</ion-content>
 </ion-view>

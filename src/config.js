@@ -4,8 +4,11 @@ let {
 	PostsController,
 	PostController,
 	NewPostController,
+	EditPostController,
 	NewGroupController
 	} = require('controllers');
+
+let {DataService} = require('services');
 
 module.exports = function ($stateProvider, $urlRouterProvider) {
 	$stateProvider
@@ -27,6 +30,11 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 
 		.state('app.home.posts', {
 			url: "/",
+			resolve: {
+				posts() {
+					return DataService.posts;
+				}
+			},
 			views: {
 				posts: {
 					templateUrl: "templates/home/posts.html",
@@ -47,10 +55,30 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 
 		.state('app.home.post', {
 			url: "/posts/{postId:int}",
+			resolve: {
+				post($stateParams) {
+					return DataService.posts[$stateParams['postId']];
+				}
+			},
 			views: {
 				posts: {
 					templateUrl: "templates/home/post.html",
 					controller: PostController
+				}
+			}
+		})
+
+		.state('app.home.editPost', {
+			url: "/posts/{postId:int}/edit",
+			resolve: {
+				post($stateParams) {
+					return DataService.posts[$stateParams['postId']];
+				}
+			},
+			views: {
+				posts: {
+					templateUrl: "templates/home/edit-post.html",
+					controller: EditPostController
 				}
 			}
 		})

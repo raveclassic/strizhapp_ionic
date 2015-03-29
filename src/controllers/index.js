@@ -4,6 +4,7 @@ module.exports = {
 	PostsController: require('./PostsController.js'),
 	PostController: require('./PostController.js'),
 	NewPostController: require('./NewPostController.js'),
+	EditPostController: require('./EditPostController.js'),
 	NewGroupController: require('./NewGroupController.js')
 };
 

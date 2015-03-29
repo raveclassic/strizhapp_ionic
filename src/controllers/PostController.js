@@ -1,5 +1,6 @@
 let {DataService} = require('services');
 
-module.exports = function PostController($scope, $stateParams) {
-	$scope.post = DataService.posts[$stateParams['postId']];
+module.exports = function PostController($scope, post) {
+	$scope.post = post;
+	console.log(post);
 };
