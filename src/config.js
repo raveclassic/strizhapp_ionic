@@ -87,8 +87,13 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		.state('app.home.post', {
 			url: "/posts/{postId:int}",
 			resolve: {
-				post($stateParams) {
-					return DataService.posts[$stateParams['postId']];
+				post($stateParams, ApiService, $ionicLoading) {
+					$ionicLoading.show();
+					return ApiService.get('post/' + $stateParams['postId'])
+						.then((response) => {
+							$ionicLoading.hide();
+							return response;
+						});
 				}
 			},
 			views: {
@@ -102,8 +107,13 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		.state('app.home.editPost', {
 			url: "/posts/{postId:int}/edit",
 			resolve: {
-				post($stateParams) {
-					return DataService.posts[$stateParams['postId']];
+				post($stateParams, ApiService, $ionicLoading) {
+					$ionicLoading.show();
+					return ApiService.get('post/' + $stateParams['postId'])
+						.then((response) => {
+							$ionicLoading.hide();
+							return response;
+						});
 				}
 			},
 			views: {
