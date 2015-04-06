@@ -1,21 +1,41 @@
 <ion-view view-title="Новая тема">
 	<ion-content>
-		<div class="list">
-			<label class="item item-input item-stacked-label">
-				<span class="input-label">Название</span>
-				<input type="text">
-			</label>
-			<label class="item item-input item-stacked-label">
-				<span class="input-label">Описание</span>
-				<textarea name="" id="" rows="10"></textarea>
-			</label>
-			<label class="item item-input item-stacked-label">
-				<span class="input-label">Цена/Вознаграждение</span>
-				<input type="number">
-			</label>
-		</div>
-		<div class="padding">
-			<button class="button button-block button-positive">Создать</button>
-		</div>
+		<form novalidate="true" ng-submit="save($event)" name="new-post">
+			<div class="list">
+				<label class="item item-input item-floating-label form-group">
+					<span class="input-label">Название</span>
+					<input type="text"
+					       ng-model="newPost.title"
+					       required="true"
+					       name="title"
+					       ng-minlength="3"
+					       placeholder="Название">
+				</label>
+				<label class="item item-input item-floating-label form-group">
+					<span class="input-label">Описание</span>
+					<textarea name="description"
+					          id=""
+					          rows="10"
+					          style="resize: none;"
+					          ng-model="newPost.description"
+					          required="true"
+					          ng-minlength="3"
+					          placeholder="Описание"></textarea>
+				</label>
+				<label class="item item-input item-floating-label form-group">
+					<span class="input-label">Цена/Вознаграждение</span>
+					<input type="number"
+					       ng-model="newPost.price"
+					       required="true"
+					       placeholder="Цена/Вознаграждение">
+				</label>
+			</div>
+			<div class="padding">
+				<button class="button button-block button-positive"
+				        type="submit"
+						submit-button
+						pending="...">Создать</button>
+			</div>
+		</form>
 	</ion-content>
 </ion-view>

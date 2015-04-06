@@ -19,20 +19,14 @@
         </ion-header-bar>
         <ion-content>
             <ion-list>
-                <ion-item nav-clear menu-close ng-click="login()">
+	            <ion-item nav-clear menu-close ng-show="user" ui-sref="app.profile">
+		            Профиль
+	            </ion-item>
+                <ion-item nav-clear menu-close ng-click="login()" ng-hide="user">
                     Профиль
                 </ion-item>
-                <ion-item nav-clear menu-close href="#/">
+                <ion-item nav-clear menu-close ui-sref="app.home.posts">
                     Мои темы
-                </ion-item>
-                <ion-item nav-clear menu-close href="#/search">
-                    Search
-                </ion-item>
-                <ion-item nav-clear menu-close href="#/browse">
-                    Browse
-                </ion-item>
-                <ion-item nav-clear menu-close href="#/playlists">
-                    Playlists
                 </ion-item>
             </ion-list>
         </ion-content>

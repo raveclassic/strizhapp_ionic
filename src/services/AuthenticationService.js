@@ -1,4 +1,4 @@
-function AuthenticationService(ApiService) {
+function AuthService(ApiService) {
 	return {
 		login(login, password) {
 			return ApiService.post('auth', {
@@ -9,4 +9,4 @@ function AuthenticationService(ApiService) {
 	}
 }
 
-module.exports = AuthenticationService;
+module.exports = AuthService;

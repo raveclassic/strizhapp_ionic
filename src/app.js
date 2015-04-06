@@ -1,5 +1,8 @@
 require('moment');
 require('moment/locale/ru.js');
+require('angular-auto-validate/dist/jcs-auto-validate.js');
+let autoValidateLang = require('angular-auto-validate/dist/lang/jcs-auto-validate_ru-ru.json');
+require('ngstorage/ngStorage.js');
 
 let faker = require('faker');
 faker.locale = 'ru';
@@ -10,14 +13,9 @@ let services = require('services');
 let config = require('./config.js');
 let run = require('./run.js');
 
-Object.keys(filters).reduce((m, key) => {
-	return m.filter(key, () => filters[key]);
-}, angular.module('app.filters', []));
+let app = angular.module('app', ['ionic', 'jcs-autoValidate', 'ngStorage']);
 
-Object.keys(services).reduce((m, key) => {
-	return m.service(key, services[key]);
-}, angular.module('app.services', []));
+Object.keys(filters).forEach(key => app.filter(key, () => filters[key]));
+Object.keys(services).forEach(key =>  app.service(key, services[key]));
 
-angular.module('app', ['ionic', 'app.filters', 'app.services'])
-	.run(run)
-	.config(config);
+app.run(run).config(config);

@@ -12,15 +12,30 @@ let {
 	GroupController
 	} = require('controllers');
 
+let Helpers = require('util/helpers');
+
 let {DataService} = require('services');
 
-module.exports = function ($stateProvider, $urlRouterProvider) {
+module.exports = function ($stateProvider, $urlRouterProvider, $httpProvider) {
 	$stateProvider
 
 		.state('app', {
 			abstract: true,
 			templateUrl: "templates/menu.html",
-			controller: AppController
+			controller: AppController,
+			resolve: {
+				user($rootScope, ApiService, $localStorage) {
+					let user = $localStorage.user;
+					if (user) {
+						return user;
+					} else {
+						return ApiService.get('user/8').then((user) => {
+							$localStorage.user = user;
+							return user;
+						})
+					}
+				}
+			}
 		})
 
 		.state('app.home', {
@@ -35,8 +50,18 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		.state('app.home.posts', {
 			url: "/",
 			resolve: {
-				posts() {
-					return DataService.posts;
+				posts(ApiService, $ionicLoading) {
+					$ionicLoading.show({
+						template: 'Загрузка'
+					});
+					return ApiService.get('post', {
+						order: {
+							created_at: 'desc'
+						}
+					}).then((response) => {
+						$ionicLoading.hide();
+						return response.items.post;
+					});
 				}
 			},
 			views: {
@@ -157,39 +182,11 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 			}
 		})
 
-		.state('app.search', {
-			url: "/search",
+		.state('app.profile', {
+			url: '/profile',
 			views: {
-				'menuContent': {
-					templateUrl: "templates/search.html"
-				}
-			}
-		})
-
-		.state('app.browse', {
-			url: "/browse",
-			views: {
-				'menuContent': {
-					templateUrl: "templates/browse.html"
-				}
-			}
-		})
-
-		.state('app.playlists', {
-			url: "/playlists",
-			views: {
-				'menuContent': {
-					templateUrl: "templates/playlists.html",
-					controller: PlaylistsController
-				}
-			}
-		})
-
-		.state('app.single', {
-			url: "/playlists/:playlistId",
-			views: {
-				'menuContent': {
-					templateUrl: "templates/playlist.html"
+				menuContent: {
+					templateUrl: "templates/profile/profile-index.html"
 				}
 			}
 		});

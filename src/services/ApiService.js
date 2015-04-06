@@ -1,36 +1,14 @@
 const BASE_API_URL = '//strizhapi.herokuapp.com/api/v1';
 
+let Helpers = require('util/helpers');
+
 function ApiService($http) {
-	return {
-		get(url, query) {
-			query = query || {};
-			return $http.get(getFullUrl(url), {
-				params: query
-			}).then(parseResponse);
-		},
-
-		post(url, data) {
-			return $http.post(getFullUrl(url), data)
-				.then(parseResponse);
-		},
-
-		put(url, data) {
-			return $http.put(getFullUrl(url), data)
-				.then(parseResponse);
-		},
-
-		'delete': function(url) {
-			return $http.delete(getFullUrl(url))
-				.then(parseResponse);
-		}
-	};
-
 	function getFullUrl(url) {
 		return `${BASE_API_URL}/${url}`;
 	}
 
 	function parseResponse(response) {
-		if (response.status != 200) {
+		if ((''+response.status)[0] != 2) {
 			let error = new Error(response.statusText);
 			error.status = response.status;
 			throw error;
@@ -38,6 +16,39 @@ function ApiService($http) {
 
 		return response.data.data;
 	}
+
+	function request(method, url, query, data) {
+		url += '?' + Helpers.object.toParam(query);
+		return $http({
+			method: method,
+			withCredentials: true,
+			data: data,
+			url: getFullUrl(url)
+		}).then(parseResponse);
+	}
+
+	return {
+		get(url, query) {
+			query = query || {};
+			return request('GET', url, query);
+		},
+
+		post(url, data) {
+			return request('POST', url, null, data);
+		},
+
+		put(url, data) {
+			return request('PUT', url, null, data);
+		},
+
+		'delete': function (url) {
+			return request('DELETE', url);
+		},
+
+		options(url) {
+			return request('OPTIONS', url);
+		}
+	};
 }
 
 module.exports = ApiService;
