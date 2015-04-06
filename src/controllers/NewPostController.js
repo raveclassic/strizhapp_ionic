@@ -1,10 +1,9 @@
-module.exports = function NewPostController($scope, ApiService, $ionicLoading, $ionicPopup, $state, $ionicHistory) {
+module.exports = function NewPostController($scope, ApiService, $ionicLoading, $ionicPopup, $state) {
 	$scope.newPost = {
 		title: '',
 		description: '',
 		price: ''
 	};
-	window.$ionicHistory = $ionicHistory;
 	$scope.save = function() {
 		let focused = document.querySelector('form input:focus, form textarea:focus');
 		if (focused) {

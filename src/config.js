@@ -9,14 +9,16 @@ let {
 	FeedController,
 	FeedItemController,
 	GroupsController,
-	GroupController
+	GroupController,
+	EditProfileController
 	} = require('controllers');
 
 let Helpers = require('util/helpers');
 
 let {DataService} = require('services');
 
-module.exports = function ($stateProvider, $urlRouterProvider, $httpProvider) {
+module.exports = function ($stateProvider, $urlRouterProvider) {
+
 	$stateProvider
 
 		.state('app', {
@@ -25,12 +27,12 @@ module.exports = function ($stateProvider, $urlRouterProvider, $httpProvider) {
 			controller: AppController,
 			resolve: {
 				user($rootScope, ApiService, $localStorage) {
-					let user = $localStorage.user;
+					let user = angular.copy($localStorage.user);
 					if (user) {
 						return user;
 					} else {
 						return ApiService.get('user/8').then((user) => {
-							$localStorage.user = user;
+							$localStorage.user = angular.copy(user);
 							return user;
 						})
 					}
@@ -187,6 +189,21 @@ module.exports = function ($stateProvider, $urlRouterProvider, $httpProvider) {
 			views: {
 				menuContent: {
 					templateUrl: "templates/profile/profile-index.html"
+				}
+			}
+		})
+
+		.state('app.editProfile', {
+			url: '/profile/edit',
+			//resolve: {
+			//	user($scope) {
+			//		return $scope.user;
+			//	}
+			//},
+			views: {
+				menuContent: {
+					templateUrl: "templates/profile/profile-edit.html",
+					controller: EditProfileController
 				}
 			}
 		});

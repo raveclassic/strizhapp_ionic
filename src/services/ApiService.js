@@ -18,7 +18,9 @@ function ApiService($http) {
 	}
 
 	function request(method, url, query, data) {
-		url += '?' + Helpers.object.toParam(query);
+		if (query) {
+			url += '?' + Helpers.object.toParam(query);
+		}
 		return $http({
 			method: method,
 			withCredentials: true,
