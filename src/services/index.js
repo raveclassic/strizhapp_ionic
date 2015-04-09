@@ -1,5 +1,5 @@
 module.exports = {
 	DataService: require('./DataService.js'),
-	AuthenticationService: require('./AuthenticationService.js'),
+	AuthService: require('./AuthService.js'),
 	ApiService: require('./ApiService.js')
 };

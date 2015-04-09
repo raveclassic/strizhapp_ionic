@@ -13,7 +13,7 @@ let services = require('services');
 let config = require('./config.js');
 let run = require('./run.js');
 
-let app = angular.module('app', ['ionic', 'jcs-autoValidate', 'ngStorage']);
+let app = angular.module('app', ['ionic', 'jcs-autoValidate', 'ngStorage', 'http-auth-interceptor']);
 
 Object.keys(filters).forEach(key => app.filter(key, () => filters[key]));
 Object.keys(services).forEach(key =>  app.service(key, services[key]));
