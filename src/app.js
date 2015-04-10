@@ -2,6 +2,7 @@ require('moment');
 require('moment/locale/ru.js');
 require('angular-auto-validate/dist/jcs-auto-validate.js');
 let autoValidateLang = require('angular-auto-validate/dist/lang/jcs-auto-validate_ru-ru.json');
+require('angular-http-auth/src/http-auth-interceptor.js');
 require('ngstorage/ngStorage.js');
 
 let faker = require('faker');

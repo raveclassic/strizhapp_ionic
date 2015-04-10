@@ -26,17 +26,13 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 			templateUrl: "templates/menu.html",
 			controller: AppController,
 			resolve: {
-				user($rootScope, ApiService, $localStorage) {
-					let user = angular.copy($localStorage.user);
-					if (user) {
-						return user;
-					} else {
-						return ApiService.get('user/8').then((user) => {
-							$localStorage.user = angular.copy(user);
-							return user;
-						})
-					}
+				ready(AuthService) {
+					console.log('resolved');
+					return AuthService.isReady;
 				}
+				//user(AuthService) {
+				//	return AuthService.requestUser();
+				//}
 			}
 		})
 
@@ -214,6 +210,16 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 				menuContent: {
 					templateUrl: "templates/profile/profile-edit.html",
 					controller: EditProfileController
+				}
+			}
+		})
+
+		.state('login', {
+			url: '/login',
+			templateUrl: "templates/login.html",
+			controller(AuthService, $state) {
+				if(AuthService.isAuthorized()) {
+					$state.go('app.home.posts');
 				}
 			}
 		});
