@@ -10,9 +10,7 @@ module.exports = function NewPostController($scope, ApiService, $ionicLoading, $
 			focused.blur();
 		}
 
-		$ionicLoading.show({
-			template: 'Загрузка...'
-		});
+		$ionicLoading.show();
 		$scope.newPost.real_price = $scope.newPost.price;
 		ApiService.post('post', $scope.newPost)
 			.then(() => {

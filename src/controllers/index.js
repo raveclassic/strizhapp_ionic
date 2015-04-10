@@ -10,7 +10,8 @@ module.exports = {
 	FeedItemController: require('./FeedItemController.js'),
 	GroupsController: require('./GroupsController.js'),
 	GroupController: require('./GroupController.js'),
-	EditProfileController: require('./EditProfileController.js')
+	EditProfileController: require('./EditProfileController.js'),
+	LoginController: require('./LoginController.js')
 };
 
 //Object.keys(module.exports).reduce((m, key) => {

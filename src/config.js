@@ -1,5 +1,6 @@
 let {
 	AppController,
+	LoginController,
 	PlaylistsController,
 	PostsController,
 	PostController,
@@ -26,13 +27,23 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 			templateUrl: "templates/menu.html",
 			controller: AppController,
 			resolve: {
-				ready(AuthService) {
-					console.log('resolved');
-					return AuthService.isReady;
+				ready(AuthService, $q, $state) {
+					let deferred = $q.defer();
+					AuthService.requestUser()
+						.then(user => {
+							deferred.resolve(user);
+						})
+						.catch((error) => {
+							deferred.reject();
+							if (error.message === AuthService.ERROR_UNAUTHORIZED) {
+								$state.go('login');
+							}
+						});
+					return deferred.promise;
+				},
+				user(AuthService, ready) {
+					return AuthService.requestUser();
 				}
-				//user(AuthService) {
-				//	return AuthService.requestUser();
-				//}
 			}
 		})
 
@@ -48,10 +59,8 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		.state('app.home.posts', {
 			url: "/",
 			resolve: {
-				posts(ApiService, $ionicLoading) {
-					$ionicLoading.show({
-						template: 'Загрузка'
-					});
+				posts(ApiService, $ionicLoading, ready) {
+					$ionicLoading.show();
 					return ApiService.get('post', {
 						order: {
 							created_at: 'desc'
@@ -83,7 +92,7 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		.state('app.home.post', {
 			url: "/posts/{postId:int}",
 			resolve: {
-				post($stateParams, ApiService, $ionicLoading) {
+				post($stateParams, ApiService, $ionicLoading, ready) {
 					$ionicLoading.show();
 					return ApiService.get('post/' + $stateParams['postId'])
 						.then((response) => {
@@ -103,7 +112,7 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		.state('app.home.editPost', {
 			url: "/posts/{postId:int}/edit",
 			resolve: {
-				post($stateParams, ApiService, $ionicLoading) {
+				post($stateParams, ApiService, $ionicLoading, ready) {
 					$ionicLoading.show();
 					return ApiService.get('post/' + $stateParams['postId'])
 						.then((response) => {
@@ -123,7 +132,7 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		.state('app.home.feed', {
 			url: "/feed",
 			resolve: {
-				feed() {
+				feed(ready) {
 					return DataService.feed;
 				}
 			},
@@ -153,7 +162,7 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		.state('app.home.groups', {
 			url: "/groups",
 			resolve: {
-				groups() {
+				groups(ready) {
 					return DataService.groups;
 				}
 			},
@@ -178,7 +187,7 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		.state('app.home.group', {
 			url: '/groups/:groupId',
 			resolve: {
-				group($stateParams) {
+				group($stateParams, ready) {
 					return DataService.groups[$stateParams['groupId']];
 				}
 			},
@@ -217,11 +226,7 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		.state('login', {
 			url: '/login',
 			templateUrl: "templates/login.html",
-			controller(AuthService, $state) {
-				if(AuthService.isAuthorized()) {
-					$state.go('app.home.posts');
-				}
-			}
+			controller: LoginController
 		});
 
 	// if none of the above states are matched, use this as the fallback

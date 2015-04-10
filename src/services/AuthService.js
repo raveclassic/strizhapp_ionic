@@ -14,6 +14,7 @@ const AUTH_STORAGE_KEY = 'AUTH_STORAGE_KEY';
 function AuthService(ApiService, $localStorage, $q) {
 
 	let ready = $q.defer();
+	let userId;
 
 	return {
 		EVENT_LOGIN_CONFIRMED,
@@ -23,10 +24,9 @@ function AuthService(ApiService, $localStorage, $q) {
 
 		requestUser() {
 			return $q.when().then(() => {
-				return $q.reject(new Error(ERROR_UNAUTHORIZED));
 				return $localStorage[AUTH_STORAGE_KEY] || this.checkSession().then(userId => {
 						if (!userId) {
-							throw new Error(ERROR_UNAUTHORIZED);
+							return $q.reject(new Error(ERROR_UNAUTHORIZED));
 						} else {
 							return ApiService.get(`user/${userId}`).then(user => {
 								return $localStorage[AUTH_STORAGE_KEY] = user;
@@ -48,16 +48,24 @@ function AuthService(ApiService, $localStorage, $q) {
 			return ApiService.post('auth', {
 				phone: login,
 				password
+			}).then((response) => {
+				userId = response.user_id;
+				return this.requestUser();
 			});
 		},
 
 		logout() {
+			userId = null;
 			delete $localStorage[AUTH_STORAGE_KEY];
 			return ApiService.delete('auth');
 		},
 
 		checkSession() {
-			return ApiService.get('auth').then(response => response.user_id);
+			return $q.when().then(() => {
+				return userId ? userId : ApiService.get('auth').then(response => {
+					return userId = response.user_id;
+				});
+			})
 		},
 
 		isReady: ready.promise,
