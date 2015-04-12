@@ -36,7 +36,7 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 						.catch((error) => {
 							deferred.reject();
 							if (error.message === AuthService.ERROR_UNAUTHORIZED) {
-								$state.go('login');
+								$state.go('login.signin');
 							}
 						});
 					return deferred.promise;
@@ -224,9 +224,19 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		})
 
 		.state('login', {
-			url: '/login',
+			abstract: true,
 			templateUrl: "templates/login.html",
 			controller: LoginController
+		})
+
+		.state('login.signin', {
+			url: '/signin',
+			templateUrl: "templates/login/signin.html"
+		})
+
+		.state('login.signup', {
+			url: '/signup',
+			templateUrl: "templates/login/signup.html"
 		});
 
 	// if none of the above states are matched, use this as the fallback

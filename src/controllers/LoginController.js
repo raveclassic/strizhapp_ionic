@@ -1,16 +1,21 @@
-function LoginController($state, $scope, AuthService, $ionicLoading, $ionicPopup, $q, $timeout) {
+function LoginController($state, $scope, AuthService, $ionicLoading, $ionicPopup, $q, $timeout, ApiService) {
 	if (AuthService.isAuthorized()) {
 		$state.go('app.home.posts');
 	}
 
-	$scope.loginData = {
+	$scope.signinData = {
 		phone: '',
 		password: ''
 	};
 
-	$scope.doLogin = () => {
+	$scope.signupData = {
+		phone: '',
+		password: ''
+	};
+
+	$scope.signin = () => {
 		$ionicLoading.show();
-		AuthService.login($scope.loginData.phone, $scope.loginData.password)
+		AuthService.login($scope.signinData.phone, $scope.signinData.password)
 			.then(() => {
 				$timeout(() => {
 					$state.go('app.home.posts');
@@ -30,6 +35,31 @@ function LoginController($state, $scope, AuthService, $ionicLoading, $ionicPopup
 			.finally(() => {
 				$ionicLoading.hide();
 			});
+	};
+
+	$scope.signup = () => {
+		$ionicLoading.show();
+		ApiService.post('user', {
+			phone: $scope.signupData.phone
+		})
+			.then(() => {
+				$ionicLoading.hide();
+				return AuthService.login($scope.signupData.phone, $scope.signupData.password)
+					.then(() => {
+						$timeout($state.go.bind($state, 'app.home.posts'));
+					});
+			})
+			.catch(error => {
+				$ionicPopup.alert({
+					title: "Ошибка " + error.status,
+					template: JSON.stringify(error.data)
+				});
+			})
+			.finally($ionicLoading.hide);
+	};
+
+	$scope.restorePassword = () => {
+		alert('password restore not implemented');
 	};
 }
 
