@@ -3,9 +3,9 @@ module.exports = function AppController($rootScope, $scope, $ionicModal, $timeou
 	$rootScope.user = user;
 
 	$rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
-		if (toState.name !== 'login' && !AuthService.isAuthorized()) {
+		if (toState.name !== 'login.signin' && !AuthService.isAuthorized()) {
 			event.preventDefault();
-			$state.go('login');
+			$state.go('login.signin');
 		}
 	});
 
@@ -13,7 +13,7 @@ module.exports = function AppController($rootScope, $scope, $ionicModal, $timeou
 		$ionicLoading.show();
 		AuthService.logout().finally(() => {
 			$ionicLoading.hide();
-			$state.go('login');
+			$state.go('login.signin');
 		});
 	};
 };
