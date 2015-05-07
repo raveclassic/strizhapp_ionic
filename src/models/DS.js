@@ -2,7 +2,7 @@ import JSData from 'js-data';
 import DSHttpAdapter from 'js-data-http';
 import qs from 'querystring';
 
-const API_URL = 'http://strizhapi.herokuapp.com/api/v1/';
+const API_URL = (document.location.protocol || 'http:') + '//strizhapi.herokuapp.com/api/v1/';
 
 let store = new JSData.DS({
 	basePath: API_URL,
