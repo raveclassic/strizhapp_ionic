@@ -1,5 +1,5 @@
 import User from '../models/User.js';
-import {http} from '../models/DS.js';
+import {http} from '../util/adapter.js';
 
 const AUTH_STORAGE_KEY = 'AUTH_STORAGE_KEY';
 
@@ -39,7 +39,9 @@ export default class AuthService {
 	}
 
 	isAuthorized() {
-		return this.requestUser().catch(() => {});
+		return new Promise((resolve, reject) => {
+			this.requestUser().then(resolve.bind(this, true)).catch(resolve.bind(this, false));
+		});
 	}
 
 	login(login, password) {

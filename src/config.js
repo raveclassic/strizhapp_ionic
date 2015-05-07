@@ -20,7 +20,7 @@ let Helpers = require('util/helpers');
 
 let {DataService} = require('services');
 
-module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider) {
+module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 
 	//$locationProvider.html5Mode(true);
 
@@ -51,18 +51,14 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 			resolve: {
 				posts($ionicLoading, currentUser) {
 					$ionicLoading.show();
-					return Post.findAll().then(posts => {
+					return Post.findAll({
+						order: {
+							created_at: 'DESC'
+						}
+					}).then(posts => {
 						$ionicLoading.hide();
 						return posts;
 					});
-					//return ApiService.get('post', {
-					//	order: {
-					//		created_at: 'desc'
-					//	}
-					//}).then((response) => {
-					//	$ionicLoading.hide();
-					//	return response.items.post;
-					//});
 				}
 			},
 			views: {

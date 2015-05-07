@@ -26,6 +26,7 @@
     "js-data-http": "^1.2.3",
     "js-data-schema": "^1.2.4",
     "moment": "^2.9.0",
+    "qs": "^2.4.1",
     "serve-static": "^1.9.2",
     "shelljs": "^0.3.0",
     "uglify": "^0.1.1",
@@ -49,6 +50,6 @@
   "browserify-shim": {},
   "scripts": {
     "postinstall": "gulp install && gulp sass && gulp js",
-    "serve": "ionic serve"
+    "start": "ionic serve"
   }
 }

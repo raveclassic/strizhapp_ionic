@@ -1,6 +1,6 @@
-module.exports = function AppController($rootScope, $scope, $ionicModal, $timeout, AuthService, $state, $ionicLoading, user) {
+module.exports = function AppController($rootScope, $scope, $ionicModal, $timeout, AuthService, $state, $ionicLoading, currentUser) {
 
-	$rootScope.user = user;
+	$rootScope.currentUser = currentUser;
 
 	$rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
 		if (toState.name !== 'login.signin' && !AuthService.isAuthorized()) {

@@ -1,8 +1,9 @@
 function LoginController($state, $scope, AuthService, $ionicLoading, $ionicPopup, $q, $timeout, ApiService) {
 
-	AuthService.isAuthorized().then(() => {
-		//is authorized
-		$state.go('app.home.posts');
+	AuthService.isAuthorized().then((authorized) => {
+		if (authorized) {
+			$state.go('app.home.posts');
+		}
 	});
 
 	$scope.signinData = {
