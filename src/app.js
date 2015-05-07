@@ -1,3 +1,5 @@
+import 'bluebird';
+
 require('moment');
 require('moment/locale/ru.js');
 require('angular-auto-validate/dist/jcs-auto-validate.js');
@@ -17,6 +19,10 @@ let run = require('./run.js');
 let app = angular.module('app', ['ionic', 'jcs-autoValidate', 'ngStorage']);
 
 Object.keys(filters).forEach(key => app.filter(key, () => filters[key]));
-Object.keys(services).forEach(key =>  app.service(key, services[key]));
+Object.keys(services).forEach(key => {
+	let service = services[key];
+	service = service.default || service;
+	app.service(key, service);
+});
 
 app.run(run).config(config);

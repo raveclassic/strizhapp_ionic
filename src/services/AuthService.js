@@ -1,78 +1,130 @@
-const EVENT_LOGIN_REQUIRED = 'EVENT_LOGIN_REQUIRED';
-const EVENT_LOGIN_CONFIRMED = 'EVENT_LOGIN_CONFIRMED';
-
-const ERROR_UNAUTHORIZED = 'ERROR_UNAUTHORIZED';
+import User from '../models/User.js';
+import {http} from '../models/DS.js';
 
 const AUTH_STORAGE_KEY = 'AUTH_STORAGE_KEY';
 
-/**
- * @param {ApiService} ApiService
- * @param {$localStorage} $localStorage
- * @param {$q} $q
- * @constructor
- */
-function AuthService(ApiService, $localStorage, $q) {
+export const ERROR_UNAUTHORIZED = 'ERROR_UNAUTHORIZED';
 
-	let ready = $q.defer();
-	let userId;
+let userId;
 
-	return {
-		EVENT_LOGIN_CONFIRMED,
-		EVENT_LOGIN_REQUIRED,
+export default class AuthService {
+	requestUser() {
+		return this.requestUserId().then(userId => {
+			if (!userId) {
+				throw ERROR_UNAUTHORIZED;
+			} else {
+				return User.find(userId).catch(error => {
+					if (error.status === 403) {
+						throw ERROR_UNAUTHORIZED;
+					} else {
+						throw error;
+					}
+				})
+			}
+		});
+	}
 
-		ERROR_UNAUTHORIZED,
-
-		requestUser() {
-			return $q.when().then(() => {
-				return $localStorage[AUTH_STORAGE_KEY] || this.checkSession().then(userId => {
-						if (!userId) {
-							return $q.reject(new Error(ERROR_UNAUTHORIZED));
-						} else {
-							return ApiService.get(`user/${userId}`).then(user => {
-								return $localStorage[AUTH_STORAGE_KEY] = user;
-							});
-						}
-					});
-			});
-		},
-
-		isAuthorized() {
-			return !!$localStorage[AUTH_STORAGE_KEY];
-		},
-
-		userExists() {
-			return !!$localStorage[AUTH_STORAGE_KEY];
-		},
-
-		login(login, password) {
-			return ApiService.post('auth', {
-				phone: login,
-				password
-			}).then((response) => {
+	requestUserId() {
+		return new Promise((resolve, reject) => {
+			if (userId) return resolve(userId);
+			http.get('auth').then(response => {
 				userId = response.user_id;
-				return this.requestUser();
+				if (!userId) {
+					reject(ERROR_UNAUTHORIZED);
+				} else {
+					resolve(userId);
+				}
 			});
-		},
+		});
+	}
 
-		logout() {
-			userId = null;
-			delete $localStorage[AUTH_STORAGE_KEY];
-			return ApiService.delete('auth');
-		},
+	isAuthorized() {
+		return this.requestUser().catch(() => {});
+	}
 
-		checkSession() {
-			return $q.when().then(() => {
-				return userId ? userId : ApiService.get('auth').then(response => {
-					return userId = response.user_id;
-				});
-			})
-		},
+	login(login, password) {
+		return http.post('auth', {
+			phone: login,
+			password
+		}).then(response => userId = response.user_id);
+	}
 
-		isReady: ready.promise,
-		ready() {
-			ready.resolve();
-		}
+	logout() {
+		userId = null;
+		return http.del('auth');
 	}
 }
 
-module.exports = AuthService;
+//
+//
+///**
+// * @param {ApiService} ApiService
+// * @param {$localStorage} $localStorage
+// * @param {$q} $q
+// * @constructor
+// */
+//function AuthService(ApiService, $localStorage, $q) {
+//
+//	let ready = $q.defer();
+//	let userId;
+//
+//	return {
+//		EVENT_LOGIN_CONFIRMED,
+//		EVENT_LOGIN_REQUIRED,
+//
+//		ERROR_UNAUTHORIZED,
+//
+//		requestUser() {
+//			return $q.when().then(() => {
+//				return $localStorage[AUTH_STORAGE_KEY] || this.checkSession().then(userId => {
+//						if (!userId) {
+//							return $q.reject(new Error(ERROR_UNAUTHORIZED));
+//						} else {
+//							return ApiService.get(`user/${userId}`).then(user => {
+//								return $localStorage[AUTH_STORAGE_KEY] = user;
+//							});
+//						}
+//					});
+//			});
+//		},
+//
+//		isAuthorized() {
+//			return !!$localStorage[AUTH_STORAGE_KEY];
+//		},
+//
+//		userExists() {
+//			return !!$localStorage[AUTH_STORAGE_KEY];
+//		},
+//
+//		login(login, password) {
+//			return ApiService.post('auth', {
+//				phone: login,
+//				password
+//			}).then((response) => {
+//				userId = response.user_id;
+//				return this.requestUser();
+//			});
+//		},
+//
+//		logout() {
+//			userId = null;
+//			delete $localStorage[AUTH_STORAGE_KEY];
+//			return ApiService.delete('auth');
+//		},
+//
+//		checkSession() {
+//			return $q.when().then(() => {
+//				return userId ? userId : ApiService.get('auth').then(response => {
+//					return userId = response.user_id;
+//				});
+//			})
+//		},
+//
+//		isReady: ready.promise,
+//		ready() {
+//			ready.resolve();
+//		}
+//	}
+//}
+
+//module.exports = AuthService;

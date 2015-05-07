@@ -1,3 +1,5 @@
+import Post from 'models/Post.js';
+
 let {
 	AppController,
 	LoginController,
@@ -18,7 +20,9 @@ let Helpers = require('util/helpers');
 
 let {DataService} = require('services');
 
-module.exports = function ($stateProvider, $urlRouterProvider) {
+module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider) {
+
+	//$locationProvider.html5Mode(true);
 
 	$stateProvider
 
@@ -27,21 +31,7 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 			templateUrl: "templates/menu.html",
 			controller: AppController,
 			resolve: {
-				ready(AuthService, $q, $state) {
-					let deferred = $q.defer();
-					AuthService.requestUser()
-						.then(user => {
-							deferred.resolve(user);
-						})
-						.catch((error) => {
-							deferred.reject();
-							if (error.message === AuthService.ERROR_UNAUTHORIZED) {
-								$state.go('login.signin');
-							}
-						});
-					return deferred.promise;
-				},
-				user(AuthService, ready) {
+				currentUser(AuthService) {
 					return AuthService.requestUser();
 				}
 			}
@@ -59,16 +49,20 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		.state('app.home.posts', {
 			url: "/",
 			resolve: {
-				posts(ApiService, $ionicLoading, ready) {
+				posts($ionicLoading, currentUser) {
 					$ionicLoading.show();
-					return ApiService.get('post', {
-						order: {
-							created_at: 'desc'
-						}
-					}).then((response) => {
+					return Post.findAll().then(posts => {
 						$ionicLoading.hide();
-						return response.items.post;
+						return posts;
 					});
+					//return ApiService.get('post', {
+					//	order: {
+					//		created_at: 'desc'
+					//	}
+					//}).then((response) => {
+					//	$ionicLoading.hide();
+					//	return response.items.post;
+					//});
 				}
 			},
 			views: {
@@ -92,13 +86,17 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		.state('app.home.post', {
 			url: "/posts/{postId:int}",
 			resolve: {
-				post($stateParams, ApiService, $ionicLoading, ready) {
+				post($stateParams, $ionicLoading, currentUser) {
 					$ionicLoading.show();
-					return ApiService.get('post/' + $stateParams['postId'])
-						.then((response) => {
-							$ionicLoading.hide();
-							return response;
-						});
+					return Post.find($stateParams['postId']).then(post => {
+						$ionicLoading.hide();
+						return post;
+					});
+					//return ApiService.get('post/' + $stateParams['postId'])
+					//	.then((response) => {
+					//		$ionicLoading.hide();
+					//		return response;
+					//	});
 				}
 			},
 			views: {
@@ -112,7 +110,7 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		.state('app.home.editPost', {
 			url: "/posts/{postId:int}/edit",
 			resolve: {
-				post($stateParams, ApiService, $ionicLoading, ready) {
+				post($stateParams, ApiService, $ionicLoading, currentUser) {
 					$ionicLoading.show();
 					return ApiService.get('post/' + $stateParams['postId'])
 						.then((response) => {
@@ -132,7 +130,7 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		.state('app.home.feed', {
 			url: "/feed",
 			resolve: {
-				feed(ready) {
+				feed(currentUser) {
 					return DataService.feed;
 				}
 			},
@@ -162,7 +160,7 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		.state('app.home.groups', {
 			url: "/groups",
 			resolve: {
-				groups(ready) {
+				groups(currentUser) {
 					return DataService.groups;
 				}
 			},
@@ -187,7 +185,7 @@ module.exports = function ($stateProvider, $urlRouterProvider) {
 		.state('app.home.group', {
 			url: '/groups/:groupId',
 			resolve: {
-				group($stateParams, ready) {
+				group($stateParams, currentUser) {
 					return DataService.groups[$stateParams['groupId']];
 				}
 			},
