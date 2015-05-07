@@ -1,22 +1,47 @@
 <ion-view view-title="Редактирование">
 	<ion-content>
-		<div class="list">
-			<label class="item item-input item-stacked-label">
-				<span class="input-label">Название</span>
-				<input type="text" ng-value="post.title">
-			</label>
-			<label class="item item-input item-stacked-label">
-				<span class="input-label">Описание</span>
-				<textarea name="" id="" rows="10" ng-model="post.description"></textarea>
-			</label>
-			<label class="item item-input item-stacked-label">
-				<span class="input-label">Цена/Вознаграждение</span>
-				<input type="number" ng-value="post.price">
-			</label>
-		</div>
-		<div class="padding">
-			<button class="button button-block button-assertive" ng-click="delete()">Удалить</button>
-			<button class="button button-block button-positive">Сохранить</button>
-		</div>
+		<form novalidate="true" ng-submit="save($event)" name="new-post">
+
+			<div class="list">
+				<label class="item item-input item-floating-label form-group">
+					<span class="input-label">Название</span>
+					<input type="text"
+						   ng-model="post.title"
+						   required="true"
+						   name="title"
+						   ng-minlength="3"
+						   ng-maxlength="255"
+						   placeholder="Название">
+				</label>
+				<label class="item item-input item-floating-label form-group">
+					<span class="input-label">Описание</span>
+					<textarea name="description"
+							  id=""
+							  rows="10"
+							  style="resize: none;"
+							  ng-model="post.description"
+							  required="true"
+							  ng-minlength="3"
+							  ng-maxlength="1000"
+							  placeholder="Описание"></textarea>
+				</label>
+				<label class="item item-input item-floating-label form-group">
+					<span class="input-label">Цена/Вознаграждение</span>
+					<input type="number"
+						   ng-model="post.price"
+						   required="true"
+						   placeholder="Цена/Вознаграждение">
+				</label>
+			</div>
+			<div class="padding">
+				<button class="button button-block button-assertive" ng-click="delete()">Удалить</button>
+				<button class="button button-block button-positive"
+						type="submit"
+						submit-button
+						pending="...">
+					Сохранить
+				</button>
+			</div>
+		</form>
 	</ion-content>
 </ion-view>

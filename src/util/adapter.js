@@ -15,7 +15,7 @@ export class HttpAdapter extends DSHttpAdapter {
 
 let adapter = new HttpAdapter({
 	deserialize(resourceConfig, data) {
-		return data.data.data.items ? data.data.data.items[resourceConfig.name] : data.data.data;
+		return (data.data.data && data.data.data.items) ? data.data.data.items[resourceConfig.name] : data.data.data;
 	},
 	httpConfig: {
 		withCredentials: true

@@ -1,9 +1,12 @@
-module.exports = function NewPostController($scope, ApiService, $ionicLoading, $ionicPopup, $state) {
+import Post from '../models/Post.js';
+
+export default function NewPostController($scope, ApiService, $ionicLoading, $ionicPopup, $state) {
 	$scope.newPost = {
 		title: '',
 		description: '',
 		price: ''
 	};
+
 	$scope.save = function() {
 		let focused = document.querySelector('form input:focus, form textarea:focus');
 		if (focused) {
@@ -11,8 +14,7 @@ module.exports = function NewPostController($scope, ApiService, $ionicLoading, $
 		}
 
 		$ionicLoading.show();
-		$scope.newPost.real_price = $scope.newPost.price;
-		ApiService.post('post', $scope.newPost)
+		Post.create($scope.newPost)
 			.then(() => {
 				$state.go('app.home.posts');
 			})

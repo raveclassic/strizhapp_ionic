@@ -1,15 +1,43 @@
-module.exports = function EditPostController($scope, post, $ionicLoading, $ionicPopup, ApiService, $state) {
+import Post from '../models/Post.js';
+
+export default function EditPostController($scope, post, $ionicLoading, $ionicPopup, ApiService, $state, $ionicHistory) {
+	window.$ionicHistory = $ionicHistory;
 	$scope.post = post;
+	//
+	//$scope.save = function() {
+	//	let focused = document.querySelector('form input:focus, form textarea:focus');
+	//	if (focused) {
+	//		focused.blur();
+	//	}
+	//
+	//	$ionicLoading.show();
+	//	$scope.newPost.real_price = $scope.newPost.price;
+	//	ApiService.post('post', $scope.newPost)
+	//		.then(() => {
+	//			$state.go('app.home.posts');
+	//		})
+	//		.catch((error) => {
+	//			$ionicPopup.alert({
+	//				title: error.data.name + ' ' + error.data.status,
+	//				template: error.data.message
+	//			});
+	//		})
+	//		.finally(() => {
+	//			$ionicLoading.hide();
+	//		});
+	//};
 
 	$scope['delete'] = function () {
-		$ionicLoading.show({
-			template: 'Удаление'
-		});
-		ApiService.delete('post/' + post.id)
+		$ionicLoading.show();
+		Post.destroy(post.id)
 			.then(() => {
-				$state.go('app.home.posts');
-			}).
-			catch((error) => {
+				try {
+					$ionicHistory.goBack(-2);
+				} catch(e) {
+					$state.go('app.home.posts');
+				}
+			})
+			.catch((error) => {
 				$ionicPopup.alert({
 					title: error.name + ' ' + error.status,
 					template: error.message

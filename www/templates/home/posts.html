@@ -1,4 +1,4 @@
-<ion-view view-title="Мои темы" class="view-postView">
+<ion-view view-title="Мои темы" class="view-postView" cache-view="false">
 	<ion-nav-buttons side="secondary">
 		<a class="button button-clear" ui-sref="app.home.newPost">Создать</a>
 	</ion-nav-buttons>
@@ -19,7 +19,10 @@
 			        <img class="full-image" src="" alt="" ng-src="{{post.full_image}}">
 
 			        <p>{{post.description}}</p>
-		        </div>
+
+					<p>Цена: {{post.real_price}}</p>
+
+				</div>
 	        </div>
         </ion-list>
     </ion-content>

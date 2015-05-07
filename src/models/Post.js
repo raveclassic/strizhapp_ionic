@@ -1,5 +1,14 @@
 import DS from './DS.js';
 
-let Post = DS.defineResource('post');
+export const schema = {
+	title: {
+		type: 'string',
+		required: true
+	}
+};
+
+let Post = DS.defineResource({
+	name: 'post'
+});
 
 export default Post;

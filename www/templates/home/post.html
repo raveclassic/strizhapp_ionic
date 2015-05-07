@@ -1,6 +1,6 @@
 <ion-view view-title="" class="view-postView">
 	<ion-nav-buttons side="secondary">
-		<a class="button button-clear button-positive" ui-sref="app.home.editPost({postId: post.id})">Редактировать</a>
+		<a class="button button-clear" ui-sref="app.home.editPost({postId: post.id})">Редактировать</a>
 	</ion-nav-buttons>
 	<ion-content>
 		<div class="list card">
@@ -18,6 +18,8 @@
 				<img class="full-image" src="" alt="" ng-src="{{post.full_image}}">
 
 				<p>{{post.description}}</p>
+
+				<p>Цена: {{post.real_price}}</p>
 
 				<!--<p>-->
 					<!--<a href="#" class="subdued">1 Like</a>-->
@@ -42,7 +44,7 @@
 
 		</div>
 
-		<small style="text-align: center; display: block">Комментарии</small>
+		<small style="text-align: center; display: block" ng-show="post.comments">Комментарии</small>
 
 		<div class="list card comment" ng-repeat="comment in post.comments">
 			<div class="item item-avatar">

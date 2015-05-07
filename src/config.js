@@ -108,11 +108,10 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 			resolve: {
 				post($stateParams, ApiService, $ionicLoading, currentUser) {
 					$ionicLoading.show();
-					return ApiService.get('post/' + $stateParams['postId'])
-						.then((response) => {
-							$ionicLoading.hide();
-							return response;
-						});
+					return Post.find($stateParams['postId']).then((response) => {
+						$ionicLoading.hide();
+						return response;
+					});
 				}
 			},
 			views: {

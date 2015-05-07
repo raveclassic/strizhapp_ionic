@@ -1,12 +1,10 @@
 {
   "name": "test",
   "private": "true",
-  "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.0.0-rc.1"
-  },
   "dependencies": {
     "angular-auto-validate": "~1.18.5",
     "ngstorage": "~0.3.0",
-    "angular-http-auth": "~1.2.2"
+    "angular-http-auth": "~1.2.2",
+    "ionic": "driftyco/ionic-bower#1.0.0-rc.5"
   }
 }
