@@ -30,8 +30,7 @@ function LoginController($state, $scope, AuthService, $ionicLoading, $ionicPopup
 						template: 'Неверный пароль'
 					});
 				} else {
-					console.log(error);
-					$q.reject(error);
+					throw error;
 				}
 			})
 			.finally(() => {
@@ -41,9 +40,11 @@ function LoginController($state, $scope, AuthService, $ionicLoading, $ionicPopup
 
 	$scope.signup = () => {
 		$ionicLoading.show();
-		ApiService.post('user', {
-			phone: $scope.signupData.phone
-		})
+		let data = {
+			phone: $scope.signupData.phone,
+			password: $scope.signupData.password
+		};
+		ApiService.post('user', data)
 			.then(() => {
 				$ionicLoading.hide();
 				return AuthService.login($scope.signupData.phone, $scope.signupData.password)
