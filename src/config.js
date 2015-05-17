@@ -55,6 +55,8 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 						order: {
 							created_at: 'DESC'
 						}
+					}, {
+						bypassCache: true
 					}).then(posts => {
 						$ionicLoading.hide();
 						return posts;
