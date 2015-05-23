@@ -1,0 +1,27 @@
+<ion-view view-title="Редактирование">
+	<ion-content>
+		<form novalidate="true" ng-submit="save($event)" name="new-group">
+			<div class="list">
+				<label class="item item-input item-floating-label form-group">
+					<span class="input-label">Название</span>
+					<input type="text"
+						   ng-model="group.title"
+						   required="true"
+						   name="title"
+						   ng-minlength="3"
+						   ng-maxlength="255"
+						   placeholder="Название">
+				</label>
+			</div>
+			<div class="padding">
+				<button type="button" class="button button-block button-assertive" ng-click="delete()">Удалить</button>
+				<button class="button button-block button-positive"
+						type="submit"
+						submit-button
+						pending="...">
+					Сохранить
+				</button>
+			</div>
+		</form>
+	</ion-content>
+</ion-view>

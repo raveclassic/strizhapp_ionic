@@ -11,6 +11,7 @@ let {
 	NewPostController,
 	EditPostController,
 	NewGroupController,
+	EditGroupController,
 	FeedController,
 	FeedItemController,
 	GroupsController,
@@ -191,11 +192,34 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 			}
 		})
 
+		.state('app.home.editGroup', {
+			url: "/groups/{groupId:int}/edit",
+			resolve: {
+				group($stateParams, $ionicLoading, currentUser) {
+					$ionicLoading.show();
+					return ContactGroup.find($stateParams['groupId']).then((response) => {
+						$ionicLoading.hide();
+						return response;
+					});
+				}
+			},
+			views: {
+				groups: {
+					templateUrl: "templates/home/edit-group.html",
+					controller: EditGroupController
+				}
+			}
+		})
+
 		.state('app.home.group', {
 			url: '/groups/:groupId',
 			resolve: {
-				group($stateParams, currentUser) {
-					return DataService.groups[$stateParams['groupId']];
+				group($stateParams, currentUser, $ionicLoading) {
+					$ionicLoading.show();
+					return ContactGroup.find($stateParams['groupId']).then(group => {
+						$ionicLoading.hide();
+						return group;
+					});
 				}
 			},
 			views: {

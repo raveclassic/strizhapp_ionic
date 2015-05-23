@@ -1,6 +1,12 @@
 <ion-view view-title="{{group.title}}">
+	<ion-nav-buttons side="secondary">
+		<a class="button button-clear" ui-sref="app.home.editGroup({groupId: group.id})">Редактировать</a>
+	</ion-nav-buttons>
 	<ion-content>
 		<ion-list>
+			<h6 ng-show="!group.contacts.length" style="text-align: center">
+				В группе нет ни одного контакта
+			</h6>
 			<a class="item item-avatar" ng-repeat="contact in group.contacts"
 					href="tel:+7{{contact.phone}}">
 				<img src="" alt="" ng-src="{{contact.image}}"/>
