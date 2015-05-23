@@ -4,6 +4,9 @@
 	</ion-nav-buttons>
     <ion-content>
         <ion-list>
+			<h6 style="text-align:center" ng-show="!posts.length">
+				Нет ни одной темы
+			</h6>
 	        <div ng-repeat="post in posts" ui-sref="app.home.post({postId: post.id})"
 	             class="list card">
 		        <div class="item item-avatar" style="cursor: pointer">
