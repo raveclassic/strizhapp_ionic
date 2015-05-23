@@ -9,7 +9,7 @@
 			</h6>
 	        <a class="item" ng-repeat="group in groups" ui-sref="app.home.group({groupId: group.id})">
 		        {{group.title}}
-		        <span class="badge badge-positive">{{group.contacts.length}}</span>
+		        <span class="badge badge-positive">{{group.contact_count}}</span>
 	        </a>
         </ion-list>
     </ion-content>
