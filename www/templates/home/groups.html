@@ -1,9 +1,12 @@
-<ion-view view-title="Группы">
+<ion-view view-title="Группы" cache-view="false">
 	<ion-nav-buttons side="secondary">
-		<a class="button button-clear button-positive" ui-sref="app.home.newGroup">Создать</a>
+		<a class="button button-clear" ui-sref="app.home.newGroup">Создать</a>
 	</ion-nav-buttons>
     <ion-content>
         <ion-list>
+			<h6 style="text-align:center" ng-show="!groups.length">
+				Нет ни одной группы
+			</h6>
 	        <a class="item" ng-repeat="group in groups" ui-sref="app.home.group({groupId: group.id})">
 		        {{group.title}}
 		        <span class="badge badge-positive">{{group.contacts.length}}</span>

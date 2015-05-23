@@ -1,13 +1,21 @@
 <ion-view view-title="Новая группа">
 	<ion-content>
-		<div class="list">
-			<label class="item item-input item-stacked-label">
-				<span class="input-label">Название</span>
-				<input type="text">
-			</label>
-		</div>
-		<div class="padding">
-			<button class="button button-block button-positive">Создать</button>
-		</div>
+		<form novalidate="true" ng-submit="save($event)" name="new-group">
+			<div class="list">
+				<label class="item item-input item-floating-label form-group">
+					<span class="input-label">Название</span>
+					<input type="text"
+						   ng-model="newGroup.title"
+						   required="true"
+						   name="title"
+						   ng-minlength="3"
+						   ng-maxlength="255"
+						   placeholder="Название">
+				</label>
+			</div>
+			<div class="padding">
+				<button class="button button-block button-positive">Создать</button>
+			</div>
+		</form>
 	</ion-content>
 </ion-view>

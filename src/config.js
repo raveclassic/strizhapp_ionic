@@ -1,4 +1,6 @@
 import Post from 'models/Post.js';
+import Contact from 'models/Contact.js';
+import ContactGroup from 'models/ContactGroup.js';
 
 let {
 	AppController,
@@ -157,8 +159,18 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 		.state('app.home.groups', {
 			url: "/groups",
 			resolve: {
-				groups(currentUser) {
-					return DataService.groups;
+				groups(currentUser, $ionicLoading) {
+					$ionicLoading.show();
+					return ContactGroup.findAll({
+						order: {
+							created_at: 'DESC'
+						}
+					}, {
+						bypassCache: true
+					}).then(groups => {
+						$ionicLoading.hide();
+						return groups;
+					});
 				}
 			},
 			views: {
