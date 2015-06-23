@@ -1,5 +1,5 @@
-module.exports = {
-	DataService: require('./DataService.js'),
-	AuthService: require('./AuthService.js'),
-	ApiService: require('./ApiService.js')
-};
+export default angular.module('Services', [
+	require('./ApiService.js').name,
+	require('./AuthService.js').name,
+	require('./DataService.js').name
+]);

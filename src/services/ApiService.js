@@ -1,8 +1,8 @@
 const BASE_API_URL = '//strizhapi.herokuapp.com/api/v1';
 
-let Helpers = require('util/helpers');
+import Helpers from '../util/helpers.js';
 
-function ApiService($http) {
+export default angular.module('ApiService', []).factory('ApiService', ($http) => {
 	function getFullUrl(url) {
 		return `${BASE_API_URL}/${url}`;
 	}
@@ -51,6 +51,4 @@ function ApiService($http) {
 			return request('OPTIONS', url);
 		}
 	};
-}
-
-module.exports = ApiService;
+});

@@ -15,12 +15,15 @@ var uglify = require('gulp-uglify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 
+var copy = require('gulp-copy');
+
 var paths = {
 	sass: ['./scss/**/*.scss'],
-	js: ['./src/**/*/.js']
+	js: ['./src/**/*/.js'],
+	templates: ['./src/**/*.html']
 };
 
-gulp.task('default', ['sass', 'js']);
+gulp.task('default', ['sass', 'js', 'templates']);
 
 gulp.task('js', function (done) {
 	buildJS(false)
@@ -39,8 +42,15 @@ gulp.task('sass', function (done) {
 		.on('end', done);
 });
 
+gulp.task('templates', function (done) {
+	gulp.src(paths.templates)
+	.pipe(copy('www', {prefix: 1}))
+	.on('end', done);
+});
+
 gulp.task('watch', function () {
 	gulp.watch(paths.sass, ['sass']);
+	gulp.watch(paths.templates, ['templates']);
 	buildJS(true);
 });
 
@@ -71,7 +81,7 @@ function buildJS(watch) {
 		"www/lib/ionic/js",
 		"www/lib"
 	];
-	var bundler = browserify('app.js', args);
+	var bundler = browserify('strizhapp.js', args);
 	if (watch) {
 		bundler = watchify(bundler);
 	}
@@ -87,7 +97,7 @@ function buildJS(watch) {
 			.on('error', function(error) {
 				gutil.log('Browserify Error', error, gutil.colors.red);
 			})
-			.pipe(source('app.js'))
+			.pipe(source('strizhapp.js'))
 			.pipe(gulp.dest('./www/js/'));
 
 		return stream;

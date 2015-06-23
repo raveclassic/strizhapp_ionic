@@ -100,4 +100,6 @@ data.groups.forEach(group => group.contacts.sort((a, b) => {
 data.posts.sort((a, b) => b.created_at - a.created_at);
 data.feed.sort((a, b) => b.created_at - a.created_at);
 
-module.exports = data;
+export default angular.module('DataService', []).factory('DataService', () => {
+	return data;
+});

@@ -2,37 +2,14 @@ import Post from 'models/Post.js';
 import Contact from 'models/Contact.js';
 import ContactGroup from 'models/ContactGroup.js';
 
-let {
-	AppController,
-	LoginController,
-	PlaylistsController,
-	PostsController,
-	PostController,
-	NewPostController,
-	EditPostController,
-	NewGroupController,
-	EditGroupController,
-	FeedController,
-	FeedItemController,
-	GroupsController,
-	GroupController,
-	EditProfileController
-	} = require('controllers');
-
-let Helpers = require('util/helpers');
-
-let {DataService} = require('services');
-
-module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
-
-	//$locationProvider.html5Mode(true);
+export default function ($stateProvider, $urlRouterProvider) {
 
 	$stateProvider
 
 		.state('app', {
 			abstract: true,
-			templateUrl: "templates/menu.html",
-			controller: AppController,
+			templateUrl: "components/app/app.html",
+			controller: 'AppController',
 			resolve: {
 				currentUser(AuthService) {
 					return AuthService.requestUser();
@@ -69,7 +46,7 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 			views: {
 				posts: {
 					templateUrl: "templates/home/posts.html",
-					controller: PostsController
+					controller: 'PostsController'
 				}
 			}
 		})
@@ -79,7 +56,7 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 			views: {
 				posts: {
 					templateUrl: "templates/home/new-post.html",
-					controller: NewPostController
+					controller: 'NewPostController'
 				}
 			}
 		})
@@ -103,7 +80,7 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 			views: {
 				posts: {
 					templateUrl: "templates/home/post.html",
-					controller: PostController
+					controller: 'PostController'
 				}
 			}
 		})
@@ -122,7 +99,7 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 			views: {
 				posts: {
 					templateUrl: "templates/home/edit-post.html",
-					controller: EditPostController
+					controller: 'EditPostController'
 				}
 			}
 		})
@@ -130,14 +107,14 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 		.state('app.home.feed', {
 			url: "/feed",
 			resolve: {
-				feed(currentUser) {
+				feed(currentUser, DataService) {
 					return DataService.feed;
 				}
 			},
 			views: {
 				feed: {
 					templateUrl: "templates/home/feed.html",
-					controller: FeedController
+					controller: 'FeedController'
 				}
 			}
 		})
@@ -145,14 +122,14 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 		.state('app.home.feedItem', {
 			url: "/feed/:feedItemId",
 			resolve: {
-				feedItem($stateParams) {
+				feedItem($stateParams, DataService) {
 					return DataService.feed[$stateParams['feedItemId']]
 				}
 			},
 			views: {
 				feed: {
 					templateUrl: "templates/home/feed-item.html",
-					controller: FeedItemController
+					controller: 'FeedItemController'
 				}
 			}
 		})
@@ -177,7 +154,7 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 			views: {
 				groups: {
 					templateUrl: "templates/home/groups.html",
-					controller: GroupsController
+					controller: 'GroupsController'
 				}
 			}
 		})
@@ -187,7 +164,7 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 			views: {
 				groups: {
 					templateUrl: "templates/home/new-group.html",
-					controller: NewGroupController
+					controller: 'NewGroupController'
 				}
 			}
 		})
@@ -206,7 +183,7 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 			views: {
 				groups: {
 					templateUrl: "templates/home/edit-group.html",
-					controller: EditGroupController
+					controller: 'EditGroupController'
 				}
 			}
 		})
@@ -225,7 +202,7 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 			views: {
 				groups: {
 					templateUrl: "templates/home/group.html",
-					controller: GroupController
+					controller: 'GroupController'
 				}
 			}
 		})
@@ -249,7 +226,7 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 			views: {
 				menuContent: {
 					templateUrl: "templates/profile/profile-edit.html",
-					controller: EditProfileController
+					controller: 'EditProfileController'
 				}
 			}
 		})
@@ -257,7 +234,7 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 		.state('login', {
 			abstract: true,
 			templateUrl: "templates/login.html",
-			controller: LoginController
+			controller: 'LoginController'
 		})
 
 		.state('login.signin', {
@@ -270,6 +247,5 @@ module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider
 			templateUrl: "templates/login/signup.html"
 		});
 
-	// if none of the above states are matched, use this as the fallback
 	$urlRouterProvider.otherwise('/');
-};
+}
