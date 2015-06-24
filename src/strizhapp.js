@@ -11,10 +11,14 @@ faker.locale = 'ru';
 
 import "babelify/node_modules/babel-core/browser-polyfill.js";
 
+import "js-data";
+import "js-data-angular";
+
 angular
 	.module('strizhapp', [
 		'ionic',
 		'jcs-autoValidate',
+		'js-data',
 		require('./filters').name,
 		require('./services').name,
 		require('./components').name

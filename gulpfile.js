@@ -25,6 +25,8 @@ var paths = {
 	templates: ['./src/**/*.html']
 };
 
+var packageJson = require('./package.json');
+
 gulp.task('default', ['sass', 'js', 'templates']);
 
 gulp.task('js', function (done) {
@@ -100,6 +102,10 @@ function buildJS(isWatched) {
 		bundler = watchify(bundler);
 	}
 	bundler.on('log', gutil.log);
+	if (packageJson.browserify.external) {
+		bundler.external(packageJson.browserify.external);
+	}
+
 
 	function rebundle(files) {
 		if (files) {
