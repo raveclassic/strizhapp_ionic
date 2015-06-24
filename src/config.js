@@ -1,8 +1,11 @@
-import Post from 'models/Post.js';
-import Contact from 'models/Contact.js';
-import ContactGroup from 'models/ContactGroup.js';
+export default function ($stateProvider, $urlRouterProvider, $httpProvider, API_URL) {
 
-export default function ($stateProvider, $urlRouterProvider, $httpProvider) {
+	//DSProvider.defaults.basePath = (document.location && document.location.protocol || 'http:') +
+	// '//strizhapi.herokuapp.com/api/v1/'; DSProvider.defaults.debug = false;
+	//HttpAdapterProvider.basePath = (document.location && document.location.protocol || 'http:') +
+	// '//strizhapi.herokuapp.com/api/v1/';
+
+	$httpProvider.defaults.withCredentials = true;
 
 	$stateProvider
 
@@ -31,9 +34,9 @@ export default function ($stateProvider, $urlRouterProvider, $httpProvider) {
 		.state('app.posts', {
 			url: "/posts",
 			resolve: {
-				posts($ionicLoading, currentUser) {
+				posts($ionicLoading, currentUser, PostModel) {
 					$ionicLoading.show();
-					return Post.findAll({
+					return PostModel.findAll({
 						order: {
 							created_at: 'DESC'
 						}
@@ -66,9 +69,9 @@ export default function ($stateProvider, $urlRouterProvider, $httpProvider) {
 		.state('app.post', {
 			url: "/posts/{postId:int}",
 			resolve: {
-				post($stateParams, $ionicLoading, currentUser) {
+				post($stateParams, $ionicLoading, currentUser, PostModel) {
 					$ionicLoading.show();
-					return Post.find($stateParams['postId']).then(post => {
+					return PostModel.find($stateParams['postId']).then(post => {
 						$ionicLoading.hide();
 						return post;
 					});
@@ -251,16 +254,19 @@ export default function ($stateProvider, $urlRouterProvider, $httpProvider) {
 			templateUrl: "components/login/login.signup.html"
 		});
 
-	//TODO: research js-data-angular + intercept js-data requests with $ionicLoading
+	////TODO: research js-data-angular + intercept js-data requests with $ionicLoading
 	//$httpProvider.interceptors.push($rootScope => {
 	//	return {
 	//		request(config) {
-	//			//$rootScope.$broadcast('loading:show');
-	//			console.info('XHR', config);
+	//			if (config.url.indexOf(API_URL) !== -1) {
+	//				$rootScope.$broadcast('loading:show');
+	//			}
 	//			return config;
 	//		},
 	//		response(response) {
-	//			//$rootScope.$broadcast('loading:hide')
+	//			if (response.config.url.indexOf(API_URL) !== -1) {
+	//				$rootScope.$broadcast('loading:hide')
+	//			}
 	//			return response;
 	//		}
 	//	}

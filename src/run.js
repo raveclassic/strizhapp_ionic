@@ -1,4 +1,9 @@
-export default function ($ionicPlatform, $rootScope, $state, AuthService) {
+export default function ($ionicPlatform, $rootScope, $state, AuthService, DS, HttpAdapter, $ionicLoading) {
+
+	DS.registerAdapter('http', HttpAdapter, {
+		default: true
+	});
+
 	$ionicPlatform.ready(function () {
 		// Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 		// for form inputs)
@@ -20,7 +25,19 @@ export default function ($ionicPlatform, $rootScope, $state, AuthService) {
 		});
 	});
 
-	//DEBUG
+	////DEBUG
+	//let loadingShown = false;
+	//$rootScope.$on('loading:show', () => {
+	//	if (!loadingShown) {
+	//		loadingShown = true;
+	//		$ionicLoading.show();
+	//	}
+	//});
+	//
+	//$rootScope.$on('loading:hide', () => {
+	//	loadingShown = false;
+	//	$ionicLoading.hide();
+	//});
 
 	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
 		console.info('NAVIGATION:', '$stateChangeStart', toState, toParams);

@@ -1,11 +1,7 @@
-import User from '../models/User.js';
-import {http} from '../util/adapter.js';
-
-const AUTH_STORAGE_KEY = 'AUTH_STORAGE_KEY';
-
-export default angular.module('AuthService', []).factory('AuthService', () => {
+export default angular.module('AuthService', []).factory('AuthService', (UserModel, HttpAdapter) => {
 	let userId;
 
+	const AUTH_STORAGE_KEY = 'AUTH_STORAGE_KEY';
 	const ERROR_UNAUTHORIZED = 'ERROR_UNAUTHORIZED';
 
 	return {
@@ -16,7 +12,7 @@ export default angular.module('AuthService', []).factory('AuthService', () => {
 				if (!userId) {
 					throw ERROR_UNAUTHORIZED;
 				} else {
-					return User.find(userId).catch(error => {
+					return UserModel.find(userId).catch(error => {
 						if (error.status === 403) {
 							throw ERROR_UNAUTHORIZED;
 						} else {
@@ -30,7 +26,7 @@ export default angular.module('AuthService', []).factory('AuthService', () => {
 		requestUserId() {
 			return new Promise((resolve, reject) => {
 				if (userId) return resolve(userId);
-				http.get('auth').then(response => {
+				HttpAdapter.get('auth').then(response => {
 					userId = response.user_id;
 					if (!userId) {
 						reject(ERROR_UNAUTHORIZED);
@@ -48,7 +44,7 @@ export default angular.module('AuthService', []).factory('AuthService', () => {
 		},
 
 		login(login, password) {
-			return http.post('auth', {
+			return HttpAdapter.post('auth', {
 				phone: login,
 				password
 			}).then(response => userId = response.user_id);
@@ -56,7 +52,7 @@ export default angular.module('AuthService', []).factory('AuthService', () => {
 
 		logout() {
 			userId = null;
-			return http.del('auth');
+			return HttpAdapter.del('auth');
 		}
 	}
 });
