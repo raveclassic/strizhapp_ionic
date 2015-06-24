@@ -17,8 +17,10 @@ var buffer = require('vinyl-buffer');
 
 var copy = require('gulp-copy');
 
+var watch = require('gulp-watch');
+
 var paths = {
-	sass: ['./scss/**/*.scss'],
+	sass: ['./src/**/*.scss'],
 	js: ['./src/**/*/.js'],
 	templates: ['./src/**/*.html']
 };
@@ -26,31 +28,20 @@ var paths = {
 gulp.task('default', ['sass', 'js', 'templates']);
 
 gulp.task('js', function (done) {
-	buildJS(false)
-	.on('end', done);
+	buildJS(false).on('end', done);
 });
 
 gulp.task('sass', function (done) {
-	gulp.src('./scss/ionic.app.scss')
-		.pipe(sass())
-		.pipe(gulp.dest('./www/css/'))
-		.pipe(minifyCss({
-			keepSpecialComments: 0
-		}))
-		.pipe(rename({extname: '.min.css'}))
-		.pipe(gulp.dest('./www/css/'))
-		.on('end', done);
+	buildCSS().on('end', done);
 });
 
 gulp.task('templates', function (done) {
-	gulp.src(paths.templates)
-	.pipe(copy('www', {prefix: 1}))
-	.on('end', done);
+	copyTemplates().on('end', done);
 });
 
 gulp.task('watch', function () {
-	gulp.watch(paths.sass, ['sass']);
-	gulp.watch(paths.templates, ['templates']);
+	buildCSS(true);
+	copyTemplates(true);
 	buildJS(true);
 });
 
@@ -74,7 +65,30 @@ gulp.task('git-check', function (done) {
 	done();
 });
 
-function buildJS(watch) {
+function copyTemplates(isWatched) {
+	var stream = gulp.src(paths.templates);
+	if (isWatched) {
+		stream = stream.pipe(watch(paths.templates));
+	}
+	return stream.pipe(copy('www', {prefix: 1}));
+}
+
+function buildCSS(isWatched) {
+	var stream = gulp.src('./src/strizhapp.scss');
+	if (isWatched) {
+		stream = stream.pipe(watch(paths.sass));
+	}
+	return stream
+		.pipe(sass())
+		.pipe(gulp.dest('./www/css/'))
+		.pipe(minifyCss({
+			keepSpecialComments: 0
+		}))
+		.pipe(rename({extname: '.min.css'}))
+		.pipe(gulp.dest('./www/css/'));
+}
+
+function buildJS(isWatched) {
 	var args = watchify.args;
 	args.paths = [
 		"src",
@@ -82,7 +96,7 @@ function buildJS(watch) {
 		"www/lib"
 	];
 	var bundler = browserify('strizhapp.js', args);
-	if (watch) {
+	if (isWatched) {
 		bundler = watchify(bundler);
 	}
 	bundler.on('log', gutil.log);

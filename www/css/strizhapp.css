@@ -7675,5 +7675,5 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
-.view-postView .comment p {
-  margin-top: 0; }
+textarea {
+  resize: none; }

@@ -1,5 +1,4 @@
 export default angular
-	.module('ProfileComponent', [])
-	.controller('ProfileController', () => {
-
-	});
+	.module('ProfileComponent', [
+		require('./profile.controller.js').name
+	]);

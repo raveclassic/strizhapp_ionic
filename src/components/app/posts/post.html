@@ -1,12 +1,12 @@
-<ion-view view-title="" class="view-postView">
+<ion-view title="">
 	<ion-nav-buttons side="secondary">
-		<a class="button button-clear" ui-sref="app.home.editPost({postId: post.id})">Редактировать</a>
+		<a class="button button-icon icon ion-edit" ui-sref="app.home.editPost({postId: post.id})"></a>
 	</ion-nav-buttons>
 	<ion-content>
 		<div class="list card">
 
 			<div class="item item-avatar">
-				<img src="" alt="" ng-src="{{post.user.image}}}">
+				<img src="" alt="" ng-src="{{post.user.image}}">
 				<div>
 					<small>{{post.user.username}}</small>
 					<small class="item-note">{{post.created_at | calendar}}</small>
@@ -20,28 +20,7 @@
 				<p>{{post.description}}</p>
 
 				<p>Цена: {{post.price}}</p>
-
-				<!--<p>-->
-					<!--<a href="#" class="subdued">1 Like</a>-->
-					<!--<a href="#" class="subdued">5 Comments</a>-->
-				<!--</p>-->
 			</div>
-
-			<!--<div class="item tabs tabs-secondary tabs-icon-left">-->
-				<!--<a class="tab-item" href="#">-->
-					<!--<i class="icon ion-thumbsup"></i>-->
-					<!--Like-->
-				<!--</a>-->
-				<!--<a class="tab-item" href="#">-->
-					<!--<i class="icon ion-chatbox"></i>-->
-					<!--Comment-->
-				<!--</a>-->
-				<!--<a class="tab-item" href="#">-->
-					<!--<i class="icon ion-share"></i>-->
-					<!--Share-->
-				<!--</a>-->
-			<!--</div>-->
-
 		</div>
 
 		<small style="text-align: center; display: block" ng-show="post.comments">Комментарии</small>

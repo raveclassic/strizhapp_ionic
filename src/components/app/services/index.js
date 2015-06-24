@@ -1,5 +1,4 @@
 export default angular
-	.module('ServicesComponent', [])
-	.controller('ServicesController', () => {
-
-	});
+	.module('ServicesComponent', [
+		require('./services.controller.js').name
+	]);

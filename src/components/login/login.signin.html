@@ -1,26 +1,26 @@
-<ion-view title="Регистрация">
+<ion-view title="Авторизация">
 	<ion-content>
-		<form ng-submit="signup($event)" novalidate method="POST">
+		<form ng-submit="signin($event)" novalidate method="POST">
 			<div class="list">
 				<label class="item item-input item-stacked-label form-group">
 					<span class="input-label">№ телефона:</span>
 					<input type="tel"
-					       ng-model="signupData.phone"
-					       placeholder="70001112233"
-					       required>
+						   ng-model="signinData.phone"
+						   placeholder="70001112233"
+						   required>
 				</label>
 				<label class="item item-input item-stacked-label form-group">
 					<span class="input-label">Пароль:</span>
 					<input type="password"
-					       ng-model="signupData.password"
-					       required>
+						   ng-model="signinData.password"
+						   required>
 				</label>
 
 				<div class="item">
-					<button class="button button-block button-positive" type="submit">Регистрация</button>
+					<button class="button button-block button-positive" type="submit">Вход</button>
 
 					<button class="button button-clear button-block button-calm" type="button"
-					        ui-sref="login.signin">Вход
+							ui-sref="login.signup">Регистрация
 					</button>
 				</div>
 			</div>

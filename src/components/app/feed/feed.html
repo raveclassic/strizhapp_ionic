@@ -1,0 +1,41 @@
+<ion-view title="Лента" cache-view="false">
+	<ion-content>
+		<h6 style="text-align:center" ng-show="!feed.length">
+			Нет ни одной темы
+		</h6>
+		<ion-list>
+			<div ng-repeat="feedItem in feed" class="list card">
+				<div class="item item-avatar">
+					<img ng-src="{{feedItem.image}}" src="" alt=""/>
+
+					<div>
+						<small>{{feedItem.user.username}}</small>
+						<small class="item-note">{{feedItem.created_at | calendar}}</small>
+					</div>
+					<h2>{{feedItem.title}}</h2>
+				</div>
+
+				<div class="item item-body">
+					<img class="full-image" src="" alt="" ng-src="{{feedItem.full_image}}">
+
+					<p>{{feedItem.description}}</p>
+				</div>
+
+				<div class="item tabs tabs-secondary tabs-icon-left">
+					<a class="tab-item">
+						<i class="icon ion-thumbsup"></i>
+						Нравится
+					</a>
+					<a class="tab-item">
+						<i class="icon ion-chatbox"></i>
+						Комментировать
+					</a>
+					<a class="tab-item">
+						<i class="icon ion-share"></i>
+						Поделиться
+					</a>
+				</div>
+			</div>
+		</ion-list>
+	</ion-content>
+</ion-view>

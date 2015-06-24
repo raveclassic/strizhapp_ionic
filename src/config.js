@@ -2,13 +2,13 @@ import Post from 'models/Post.js';
 import Contact from 'models/Contact.js';
 import ContactGroup from 'models/ContactGroup.js';
 
-export default function ($stateProvider, $urlRouterProvider) {
+export default function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
 	$stateProvider
 
 		.state('app', {
 			abstract: true,
-			templateUrl: "components/app/app.html",
+			templateUrl: "components/app/app.layout.html",
 			controller: 'AppController',
 			resolve: {
 				currentUser(AuthService) {
@@ -17,17 +17,19 @@ export default function ($stateProvider, $urlRouterProvider) {
 			}
 		})
 
-		.state('app.home', {
-			abstract: true,
-			views: {
-				'menuContent': {
-					templateUrl: "templates/home.html"
+		.state('app.feed', {
+			url: "/feed",
+			resolve: {
+				feed(currentUser, DataService) {
+					return DataService.feed;
 				}
-			}
+			},
+			controller: 'FeedController',
+			templateUrl: "components/app/feed/feed.html"
 		})
 
-		.state('app.home.posts', {
-			url: "/",
+		.state('app.posts', {
+			url: "/posts",
 			resolve: {
 				posts($ionicLoading, currentUser) {
 					$ionicLoading.show();
@@ -43,25 +45,25 @@ export default function ($stateProvider, $urlRouterProvider) {
 					});
 				}
 			},
-			views: {
-				posts: {
-					templateUrl: "templates/home/posts.html",
-					controller: 'PostsController'
-				}
-			}
+			templateUrl: "components/app/posts/posts.html",
+			controller: 'PostsController'
 		})
 
-		.state('app.home.newPost', {
+		.state('app.newPost', {
 			url: "/posts/new",
-			views: {
-				posts: {
-					templateUrl: "templates/home/new-post.html",
-					controller: 'NewPostController'
+			resolve: {
+				post(currentUser) {
+					return null;
+				},
+				mode(currentUser) {
+					return 'new';
 				}
-			}
+			},
+			templateUrl: "components/app/posts/post-edit.html",
+			controller: 'PostController'
 		})
 
-		.state('app.home.post', {
+		.state('app.post', {
 			url: "/posts/{postId:int}",
 			resolve: {
 				post($stateParams, $ionicLoading, currentUser) {
@@ -70,142 +72,144 @@ export default function ($stateProvider, $urlRouterProvider) {
 						$ionicLoading.hide();
 						return post;
 					});
-					//return ApiService.get('post/' + $stateParams['postId'])
-					//	.then((response) => {
-					//		$ionicLoading.hide();
-					//		return response;
-					//	});
-				}
-			},
-			views: {
-				posts: {
-					templateUrl: "templates/home/post.html",
-					controller: 'PostController'
+				},
+				mode(currentUser) {
+					return 'view';
 				}
 			}
 		})
 
-		.state('app.home.editPost', {
-			url: "/posts/{postId:int}/edit",
-			resolve: {
-				post($stateParams, ApiService, $ionicLoading, currentUser) {
-					$ionicLoading.show();
-					return Post.find($stateParams['postId']).then((response) => {
-						$ionicLoading.hide();
-						return response;
-					});
-				}
-			},
-			views: {
-				posts: {
-					templateUrl: "templates/home/edit-post.html",
-					controller: 'EditPostController'
-				}
-			}
-		})
+		//.state('app.home.post', {
+		//	url: "/posts/{postId:int}",
+		//	resolve: {
+		//		post($stateParams, $ionicLoading, currentUser) {
+		//			$ionicLoading.show();
+		//			return Post.find($stateParams['postId']).then(post => {
+		//				$ionicLoading.hide();
+		//				return post;
+		//			});
+		//			//return ApiService.get('post/' + $stateParams['postId'])
+		//			//	.then((response) => {
+		//			//		$ionicLoading.hide();
+		//			//		return response;
+		//			//	});
+		//		}
+		//	},
+		//	views: {
+		//		posts: {
+		//			templateUrl: "templates/home/post.html",
+		//			controller: 'PostController'
+		//		}
+		//	}
+		//})
 
-		.state('app.home.feed', {
-			url: "/feed",
-			resolve: {
-				feed(currentUser, DataService) {
-					return DataService.feed;
-				}
-			},
-			views: {
-				feed: {
-					templateUrl: "templates/home/feed.html",
-					controller: 'FeedController'
-				}
-			}
-		})
+		//.state('app.home.editPost', {
+		//	url: "/posts/{postId:int}/edit",
+		//	resolve: {
+		//		post($stateParams, ApiService, $ionicLoading, currentUser) {
+		//			$ionicLoading.show();
+		//			return Post.find($stateParams['postId']).then((response) => {
+		//				$ionicLoading.hide();
+		//				return response;
+		//			});
+		//		}
+		//	},
+		//	views: {
+		//		posts: {
+		//			templateUrl: "templates/home/edit-post.html",
+		//			controller: 'EditPostController'
+		//		}
+		//	}
+		//})
+		//
 
-		.state('app.home.feedItem', {
-			url: "/feed/:feedItemId",
-			resolve: {
-				feedItem($stateParams, DataService) {
-					return DataService.feed[$stateParams['feedItemId']]
-				}
-			},
-			views: {
-				feed: {
-					templateUrl: "templates/home/feed-item.html",
-					controller: 'FeedItemController'
-				}
-			}
-		})
+		//.state('app.home.feedItem', {
+		//	url: "/feed/:feedItemId",
+		//	resolve: {
+		//		feedItem($stateParams, DataService) {
+		//			return DataService.feed[$stateParams['feedItemId']]
+		//		}
+		//	},
+		//	views: {
+		//		feed: {
+		//			templateUrl: "templates/home/feed-item.html",
+		//			controller: 'FeedItemController'
+		//		}
+		//	}
+		//})
 
-		.state('app.home.groups', {
-			url: "/groups",
-			resolve: {
-				groups(currentUser, $ionicLoading) {
-					$ionicLoading.show();
-					return ContactGroup.findAll({
-						order: {
-							created_at: 'DESC'
-						}
-					}, {
-						bypassCache: true
-					}).then(groups => {
-						$ionicLoading.hide();
-						return groups;
-					});
-				}
-			},
-			views: {
-				groups: {
-					templateUrl: "templates/home/groups.html",
-					controller: 'GroupsController'
-				}
-			}
-		})
-
-		.state('app.home.newGroup', {
-			url: "/groups/new",
-			views: {
-				groups: {
-					templateUrl: "templates/home/new-group.html",
-					controller: 'NewGroupController'
-				}
-			}
-		})
-
-		.state('app.home.editGroup', {
-			url: "/groups/{groupId:int}/edit",
-			resolve: {
-				group($stateParams, $ionicLoading, currentUser) {
-					$ionicLoading.show();
-					return ContactGroup.find($stateParams['groupId']).then((response) => {
-						$ionicLoading.hide();
-						return response;
-					});
-				}
-			},
-			views: {
-				groups: {
-					templateUrl: "templates/home/edit-group.html",
-					controller: 'EditGroupController'
-				}
-			}
-		})
-
-		.state('app.home.group', {
-			url: '/groups/:groupId',
-			resolve: {
-				group($stateParams, currentUser, $ionicLoading) {
-					$ionicLoading.show();
-					return ContactGroup.find($stateParams['groupId']).then(group => {
-						$ionicLoading.hide();
-						return group;
-					});
-				}
-			},
-			views: {
-				groups: {
-					templateUrl: "templates/home/group.html",
-					controller: 'GroupController'
-				}
-			}
-		})
+		//.state('app.home.groups', {
+		//	url: "/groups",
+		//	resolve: {
+		//		groups(currentUser, $ionicLoading) {
+		//			$ionicLoading.show();
+		//			return ContactGroup.findAll({
+		//				order: {
+		//					created_at: 'DESC'
+		//				}
+		//			}, {
+		//				bypassCache: true
+		//			}).then(groups => {
+		//				$ionicLoading.hide();
+		//				return groups;
+		//			});
+		//		}
+		//	},
+		//	views: {
+		//		groups: {
+		//			templateUrl: "templates/home/groups.html",
+		//			controller: 'GroupsController'
+		//		}
+		//	}
+		//})
+		//
+		//.state('app.home.newGroup', {
+		//	url: "/groups/new",
+		//	views: {
+		//		groups: {
+		//			templateUrl: "templates/home/new-group.html",
+		//			controller: 'NewGroupController'
+		//		}
+		//	}
+		//})
+		//
+		//.state('app.home.editGroup', {
+		//	url: "/groups/{groupId:int}/edit",
+		//	resolve: {
+		//		group($stateParams, $ionicLoading, currentUser) {
+		//			$ionicLoading.show();
+		//			return ContactGroup.find($stateParams['groupId']).then((response) => {
+		//				$ionicLoading.hide();
+		//				return response;
+		//			});
+		//		}
+		//	},
+		//	views: {
+		//		groups: {
+		//			templateUrl: "templates/home/edit-group.html",
+		//			controller: 'EditGroupController'
+		//		}
+		//	}
+		//})
+		//
+		//.state('app.home.group', {
+		//	url: '/groups/:groupId',
+		//	resolve: {
+		//		group($stateParams, currentUser, $ionicLoading) {
+		//			$ionicLoading.show();
+		//			return ContactGroup.find($stateParams['groupId']).then(group => {
+		//				$ionicLoading.hide();
+		//				return group;
+		//			});
+		//		}
+		//	},
+		//	views: {
+		//		groups: {
+		//			templateUrl: "templates/home/group.html",
+		//			controller: 'GroupController'
+		//		}
+		//	}
+		//})
 
 		.state('app.profile', {
 			url: '/profile',
@@ -216,36 +220,51 @@ export default function ($stateProvider, $urlRouterProvider) {
 			}
 		})
 
-		.state('app.editProfile', {
-			url: '/profile/edit',
-			//resolve: {
-			//	user($scope) {
-			//		return $scope.user;
-			//	}
-			//},
-			views: {
-				menuContent: {
-					templateUrl: "templates/profile/profile-edit.html",
-					controller: 'EditProfileController'
-				}
-			}
-		})
+		//.state('app.editProfile', {
+		//	url: '/profile/edit',
+		//	//resolve: {
+		//	//	user($scope) {
+		//	//		return $scope.user;
+		//	//	}
+		//	//},
+		//	views: {
+		//		menuContent: {
+		//			templateUrl: "templates/profile/profile-edit.html",
+		//			controller: 'EditProfileController'
+		//		}
+		//	}
+		//})
 
 		.state('login', {
 			abstract: true,
-			templateUrl: "templates/login.html",
+			templateUrl: "components/login/login.layout.html",
 			controller: 'LoginController'
 		})
 
 		.state('login.signin', {
 			url: '/signin',
-			templateUrl: "templates/login/signin.html"
+			templateUrl: "components/login/login.signin.html"
 		})
 
 		.state('login.signup', {
 			url: '/signup',
-			templateUrl: "templates/login/signup.html"
+			templateUrl: "components/login/login.signup.html"
 		});
 
-	$urlRouterProvider.otherwise('/');
+	//TODO: research js-data-angular + intercept js-data requests with $ionicLoading
+	//$httpProvider.interceptors.push($rootScope => {
+	//	return {
+	//		request(config) {
+	//			//$rootScope.$broadcast('loading:show');
+	//			console.info('XHR', config);
+	//			return config;
+	//		},
+	//		response(response) {
+	//			//$rootScope.$broadcast('loading:hide')
+	//			return response;
+	//		}
+	//	}
+	//});
+
+	$urlRouterProvider.otherwise('/feed');
 }

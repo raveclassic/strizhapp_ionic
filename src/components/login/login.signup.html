@@ -1,0 +1,29 @@
+<ion-view title="Регистрация">
+	<ion-content>
+		<form ng-submit="signup($event)" novalidate method="POST">
+			<div class="list">
+				<label class="item item-input item-stacked-label form-group">
+					<span class="input-label">№ телефона:</span>
+					<input type="tel"
+						   ng-model="signupData.phone"
+						   placeholder="70001112233"
+						   required>
+				</label>
+				<label class="item item-input item-stacked-label form-group">
+					<span class="input-label">Пароль:</span>
+					<input type="password"
+						   ng-model="signupData.password"
+						   required>
+				</label>
+
+				<div class="item">
+					<button class="button button-block button-positive" type="submit">Регистрация</button>
+
+					<button class="button button-clear button-block button-calm" type="button"
+							ui-sref="login.signin">Вход
+					</button>
+				</div>
+			</div>
+		</form>
+	</ion-content>
+</ion-view>

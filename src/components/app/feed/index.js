@@ -1,5 +1,4 @@
 export default angular
-	.module('FeedComponent', [])
-	.controller('FeedController', ($scope, feed) => {
-		$scope.feed = feed;
-	});
+	.module('FeedComponent', [
+		require('./feed.controller.js').name
+	]);
