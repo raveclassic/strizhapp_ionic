@@ -1,0 +1,37 @@
+<ion-view title="Профиль" class="view-postView" cache-view="false">
+	<ion-nav-buttons side="secondary">
+		<a class="button button-clear button-positive" ui-sref="app.editProfile">Редактировать</a>
+	</ion-nav-buttons>
+	<ion-content>
+		<form novalidate="true" ng-submit="save($event)">
+			<div class="list">
+				<label class="item item-input item-floating-label form-group">
+					<span class="input-label">Имя</span>
+					<input type="text"
+						   ng-model="user.first_name"
+						   required="true"
+						   name="first_name"
+						   ng-minlength="3"
+						   ng-maxlength="255"
+						   placeholder="Имя">
+				</label>
+				<label class="item item-input item-floating-label form-group">
+					<span class="input-label">Фамилия</span>
+					<input type="text"
+						   ng-model="user.last_name"
+						   required="true"
+						   name="last_name"
+						   ng-minlength="3"
+						   ng-maxlength="255"
+						   placeholder="Фамилия">
+				</label>
+			</div>
+			<div class="padding">
+				<button class="button button-block button-positive"
+						type="submit"
+						submit-button
+						pending="...">Сохранить</button>
+			</div>
+		</form>
+	</ion-content>
+</ion-view>

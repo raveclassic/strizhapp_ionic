@@ -18,6 +18,10 @@
 		</ion-header-bar>
 		<ion-content>
 			<ion-list>
+				<ion-item nav-clear menu-close ng-show="currentUser" ui-sref="app.profile">
+					Профиль
+				</ion-item>
+
 				<ion-item nav-clear menu-close ng-show="currentUser" ui-sref="app.feed">
 					Лента
 				</ion-item>

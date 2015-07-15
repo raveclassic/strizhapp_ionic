@@ -20,6 +20,17 @@ export default function ($stateProvider, $urlRouterProvider, $httpProvider, API_
 			}
 		})
 
+		.state('app.profile', {
+			url: '/profile',
+			templateUrl: "components/app/profile/profile.html",
+			controller: 'ProfileController',
+			resolve: {
+				user(currentUser) {
+					return currentUser;
+				}
+			}
+		})
+
 		.state('app.feed', {
 			url: "/feed",
 			resolve: {
@@ -213,15 +224,6 @@ export default function ($stateProvider, $urlRouterProvider, $httpProvider, API_
 		//		}
 		//	}
 		//})
-
-		.state('app.profile', {
-			url: '/profile',
-			views: {
-				menuContent: {
-					templateUrl: "templates/profile/profile-index.html"
-				}
-			}
-		})
 
 		//.state('app.editProfile', {
 		//	url: '/profile/edit',
